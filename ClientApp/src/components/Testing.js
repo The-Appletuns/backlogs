@@ -6,7 +6,7 @@ export class Testing extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            data: "Test"
         };
     }
 
@@ -14,10 +14,20 @@ export class Testing extends Component {
         this.testingStringData();
     }
 
+    render () {
+        return (
+        <div>
+            <h1>Laurence Testing</h1>
+            {this.state.data}
+        </div>
+        )
+    }
 
     async testingStringData() {
         const response = await fetch('testing');
         const data = await response.json();
-        this.setState({});
+        this.setState({
+            data: data
+        });
     }
 }
