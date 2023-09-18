@@ -20,6 +20,7 @@ export class Testing extends Component {
             <table>
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Username</th>
                         <th>Email</th>
                     </tr>
@@ -27,6 +28,7 @@ export class Testing extends Component {
                 <tbody>
                     {testData.map(testUser =>
                         <tr key={testUser.username}>
+                            <td>{testUser.id}</td>
                             <td>{testUser.username}</td>
                             <td>{testUser.email}</td>
                         </tr>
