@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Collapse, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import PersonIcon from '@mui/icons-material/Person'
 import './NavMenu.css';
 
 export class NavMenu extends Component {
@@ -40,6 +41,9 @@ export class NavMenu extends Component {
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/testing">Testing</NavLink>
+              </NavItem>
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/user-profile"><PersonIcon/></NavLink>
               </NavItem>
             </ul>
           </Collapse>
