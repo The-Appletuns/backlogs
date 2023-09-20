@@ -4,11 +4,11 @@ namespace backlogs.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class TestingController : ControllerBase
+public class EstefController : ControllerBase
 {
     private readonly ILogger<TestingController> _logger;
 
-    public TestingController(ILogger<TestingController> logger)
+    public EstefController(ILogger<TestingController> logger)
     {
         _logger = logger;
     }
