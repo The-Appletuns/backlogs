@@ -7,4 +7,7 @@ public class UserData
     public string? Username { get; set; }
 
     public string? Email { get; set; }
+    
+    public int FollowerCount { get; set; }
+    public int FollowingCount { get; set; }
 }

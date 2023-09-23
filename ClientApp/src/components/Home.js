@@ -12,6 +12,7 @@ export class Home extends Component {
         <h1>The Appletuns!</h1>
         <p>Welcome to backlogs</p>
         <Button variant='contained'>LMAO OK</Button>
+        <h1>POOP</h1>
       </Box>
     );
   }

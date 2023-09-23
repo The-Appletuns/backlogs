@@ -1,6 +1,7 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
+import { SearchGame } from "./components/SearchGame";
 import { Testing } from "./components/Testing";
 import { UserProfile } from "./components/UserProfile";
 
@@ -24,6 +25,10 @@ const AppRoutes = [
   {
     path: '/user-profile',
     element: <UserProfile />
+  },
+  {
+    path: '/search-game',
+    element: <SearchGame />
   }
 ];
 

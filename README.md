@@ -1,4 +1,9 @@
 # BackLogs
+## How to Run Project
+* go to Terminal on the backlogs folder
+* type ```dotnet run```
+* click on "Now listening on: http://localhost:5144"
+
 ## Project Breakdown
 ### Front-End
 * React
