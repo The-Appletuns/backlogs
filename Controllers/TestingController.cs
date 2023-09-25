@@ -1,3 +1,4 @@
+using Ical.Net.DataTypes;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backlogs.Controllers;
@@ -21,6 +22,18 @@ public class TestingController : ControllerBase
             Id = index,
             Username = new string("Appletun" + index),
             Email = new string("Appletun" + "@gmail.com")
+        })
+        .ToArray();
+    }
+
+    [HttpPost]
+    public IEnumerable<GameData> Post()
+    {
+        return Enumerable.Range(1, 5).Select(index => new GameData
+        {
+            Name = new string("Game " + index),
+            Systems = new string[6],
+            DatePlayed = new CalDateTime(DateTime.Now)
         })
         .ToArray();
     }
