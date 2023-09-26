@@ -1,6 +1,8 @@
+using DeviceDetectorNET.Parser;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backlogs.Controllers;
+
 
 [ApiController]
 [Route("[controller]")]
@@ -11,6 +13,21 @@ public class SamController : ControllerBase
     public SamController(ILogger<TestingController> logger)
     {
         _logger = logger;
+
+        var userAgent = Request.Headers["User-Agent"];
+
+        var botParser = new BotParser();
+        botParser.SetUserAgent(userAgent);
+
+        // OPTIONAL: discard bot information. Parse() will then return true instead of information
+        botParser.DiscardDetails = true;
+
+        var result = botParser.Parse();
+
+        if (result != null) {
+            // do not do anything if a bot is detected
+            return;
+        }
     }
 
     [HttpGet]
