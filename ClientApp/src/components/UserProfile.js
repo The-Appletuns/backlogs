@@ -13,7 +13,7 @@ export class UserProfile extends Component {
     render() {
         return (
             <Box>
-                <Stack direction="row">
+                <Stack direction="row" alignItems={'baseline'}>
                     <Stack direction="row">
                         <PersonIcon/>
                         <h1>Username</h1>
