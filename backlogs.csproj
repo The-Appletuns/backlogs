@@ -17,6 +17,7 @@
     <PackageReference Include="DeviceDetector.NET" Version="6.1.4" />
     <PackageReference Include="Ical.Net" Version="4.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.5" />
+    <PackageReference Include="stream-chat-net" Version="2.3.0" />
   </ItemGroup>
 
   <ItemGroup>
