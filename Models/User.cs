@@ -14,6 +14,8 @@ public class User
     [JsonPropertyName("username")]
     public string Username { get; set; } = null!;
 
+    [BsonElement("email")]
+    [JsonPropertyName("email")]
     public string Email { get; set; } = null!;
 
     [BsonElement("firstName")]
