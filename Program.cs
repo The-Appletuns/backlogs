@@ -1,6 +1,13 @@
+using backlogs.Models;
+using backlogs.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.Configure<BackLogsDatabaseSettings>(
+    builder.Configuration.GetSection("BackLogsDatabase"));
+
+builder.Services.AddSingleton<UsersService>();
 
 builder.Services.AddControllersWithViews();
 
