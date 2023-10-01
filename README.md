@@ -8,6 +8,7 @@
 ### Front-End
 * React
 * Located in ClientApp
+* Also add to appRoutes.js
 * To pull data from a c# component, you need to add the JS file to AppRoutes AND add the link name to setupProxy.js
 
 ### Back-end

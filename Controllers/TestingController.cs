@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace backlogs.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TestingController : ControllerBase
 {
     private readonly ILogger<TestingController> _logger;

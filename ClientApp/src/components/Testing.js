@@ -40,7 +40,7 @@ export class Testing extends Component {
 
     render () {
         let contents = this.state.loading
-            ? <p><em>Loading...</em></p>
+            ? <p><em>Loading User List...</em></p>
             : Testing.renderTestingData(this.state.testData);
 
         return (
