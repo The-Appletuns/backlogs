@@ -22,22 +22,34 @@ export class UserProfile extends Component {
                     alignItems='center' 
                     justifyContent='space-around'
                     spacing={4}>
+                    {/* Person Icon substitutes for the Profile Pic */}
                     <PersonIcon fontSize='large'/>
+
+                    {/* Username is the username lmao */}
                     <Typography variant='h2'>Username</Typography>
+
+                    {/* Button would either be Follow, Following, Edit Profile */}
+                    <Button variant='contained' size='large'>Follow</Button>
                 </Stack>
                 <Stack 
                     direction="row"
                     alignItems='center'
                     divider={<Divider orientation="vertical" flexItem/>}
                     spacing={2}>
+
+                    {/* Number of games played */}
                     <Box>
                         <Typography variant='h5'>##</Typography>
                         <Typography variant='h5'>Games</Typography>
                     </Box>
+
+                    {/* Number of people following */}
                     <Box>
                         <Typography variant='h5'>##</Typography>
                         <Typography variant='h5'>Following</Typography>
                     </Box>
+
+                    {/* Number of followers */}
                     <Box>
                         <Typography variant='h5'>##</Typography>
                         <Typography variant='h5'>Followers</Typography>
@@ -55,18 +67,26 @@ export class UserProfile extends Component {
                 alignItems='stretch'
                 divider={<Divider orientation="horizontal" flexItem/>}
                 spacing={4}>
+
+                {/* Shows horizontal list of favorite games */}
                 <Box>
                     <Typography variant='h4'>Favorite Games</Typography>
 
                 </Box>
+
+                {/* Shows horizontal list of recent games played */}
                 <Box>
                     <Typography variant='h4'>Recent Games</Typography>
                     
                 </Box>
+
+                {/* Shows Reviews of games */}
                 <Box>
                     <Typography variant='h4'>Recent Reviews</Typography>
                     
                 </Box>
+
+                {/* Shows grid of game collection */}
                 <Box>
                     <Typography variant='h4'>Collection Games</Typography>
                     
