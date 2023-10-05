@@ -1,15 +1,25 @@
-namespace ProfilePage.Tests;
+using NUnit.Framework;
+using ProfilePage.Services;
 
-public class UnitTest1
+namespace ProfilePage.UnitTests.Services
 {
-    [SetUp]
-    public void Setup()
+    [TestFixture]
+    public class UnitTest1
     {
-    }
+        ProfilePage _profilePage;
 
-    [Test]
-    public void Test1()
-    {
-        Assert.Pass();
+        [SetUp]
+        public void Setup()
+        {
+            _profilePage = new ProfilePage();
+        }
+
+        [Test]
+        public void Test1()
+        {
+            var result = _profilePage.IsEven(1);
+
+            Assert.IsFalse(result, "1 should not be even");
+        }
     }
 }

@@ -1,6 +1,9 @@
-﻿namespace HomePage;
+﻿using System;
 
-public class HomePage
+namespace HomePage
 {
+    public class HomePage
+    {
 
+    }
 }
