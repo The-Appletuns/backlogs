@@ -1,6 +1,6 @@
 ﻿namespace ProfilePage;
 
-public class Class1
+public class ProfilePage
 {
 
 }
