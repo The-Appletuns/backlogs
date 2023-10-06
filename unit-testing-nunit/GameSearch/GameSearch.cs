@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace Prime.Services
+namespace Game.Search
 {
-    public class PrimeService
+    public class GameSearch
     {
         public bool IsPrime(int candidate)
         {
