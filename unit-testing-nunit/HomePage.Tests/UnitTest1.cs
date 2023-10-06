@@ -1,15 +1,24 @@
-namespace HomePage.Tests;
+using NUnit.Framework;
+using HomePage.Services;
 
-public class UnitTest1
-{
-    [SetUp]
-    public void Setup()
-    {
-    }
+namespace HomePage.UnitTests.Services {
 
-    [Test]
-    public void Test1()
-    {
-        Assert.Pass();
+    [TestFixture]
+    public class UnitTest1 {
+        HomePage _homePage;
+
+        [SetUp]
+        public void SetUp() {
+            _homePage = new HomePage();
+
+        }
+
+        [Test]
+        public void Test1() {
+            var result = _homePage.IsOdd(2);
+
+            Assert.IsFalse(result, "2 should not be odd");
+
+        }
     }
 }
