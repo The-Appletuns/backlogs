@@ -1,7 +1,7 @@
 using NUnit.Framework;
-using Prime.Services;
+using Game.Search;
 
-namespace Prime.UnitTests.Services
+namespace Game.UnitTests.Search
 {
     [TestFixture]
     public class PrimeService_IsPrimeShould
