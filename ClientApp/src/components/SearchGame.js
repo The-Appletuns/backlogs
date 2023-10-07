@@ -47,7 +47,7 @@ export class SearchGame extends Component {
                 <Select
                     labelId="genre-select-label"
                     sx={{
-                        marginLeft: 3.5,
+                        marginLeft: 19,
                         marginTop: 5,
                         width: 250,
                         height: 50,
@@ -67,7 +67,7 @@ export class SearchGame extends Component {
                 <Select
                     labelId="platform-select-label"
                     sx={{
-                        marginLeft: 8,
+                        marginLeft: 12,
                         marginTop: 5,
                         width: 250,
                         height: 50,
@@ -85,7 +85,7 @@ export class SearchGame extends Component {
                 <Select
                     labelId="rating-select-label"
                     sx={{
-                        marginLeft: 8,
+                        marginLeft: 18,
                         marginTop: 5,
                         width: 250,
                         height: 50,
@@ -105,7 +105,7 @@ export class SearchGame extends Component {
                     labelId="setting-select-label"
                     sx={{
                         marginTop: 5,
-                        marginLeft: 22,
+                        marginLeft: 40,
                         width: 250,
                         height: 50,
                     }}
@@ -122,7 +122,7 @@ export class SearchGame extends Component {
                     labelId="date-select-label"
                     sx={{
                         marginTop: 5,
-                        marginLeft: 10,
+                        marginLeft: 12,
                         width: 250,
                         height: 50,
                     }}
