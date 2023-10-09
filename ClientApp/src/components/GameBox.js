@@ -7,9 +7,12 @@ import Box from '@mui/material/Box';
 export class GameBox extends Component {
 
     render() {
-        <Box>
-            {/* The Box??? box box box */}
-        </Box>
+        return(
+            <Box>
+                {/* The Box??? box box box */}
+            </Box>
+        )
+        
     }
 
 }
