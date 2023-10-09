@@ -1,6 +1,7 @@
 import { Counter } from "./components/Counter";
 import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
+import { LogIn } from "./components/LogIn";
 import { SearchGame } from "./components/SearchGame";
 import { Testing } from "./components/Testing";
 import { UserList } from "./components/UserList";
@@ -34,6 +35,10 @@ const AppRoutes = [
   {
     path: '/user-list',
     element: <UserList />
+  },
+  {
+    path: '/login',
+    element: <LogIn />
   }
 ];
 
