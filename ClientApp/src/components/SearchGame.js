@@ -5,6 +5,10 @@ import {Box, Button, TextField, Autocomplete, Grid, Typography, MenuItem, Select
 
 const games = ["Baldur's Gate III", "Persona 5: Royal", "Animal Crossing: New Leaf", "The Sims 4"];
 
+const people = ["Jane Doe", "James Doe"];
+
+const listdata = games.concat(people);
+
 export class SearchGame extends Component {
     static displayName = SearchGame.name;
     
@@ -17,19 +21,19 @@ export class SearchGame extends Component {
                 justifyContent="center"
                 marginBottom={4}
             >
-                <h1>Search Game</h1>
+                <h1>Search</h1>
             </Box>
             <Autocomplete
                 style={{ width: "100%"}}
-                options={games}
+                options={listdata}
                 renderInput={(params) => {
                     return (
                         <div ref={params.InputProps.ref}>
                             {/* <label htmlFor='game-lists'>Game Title:</label> */}
                             <input
-                                id='game-lists'
+                                id= 'list'
                                 type='text'
-                                placeholder='Game Title'
+                                placeholder='search game title, users'
                                 style={{
                                     border: "1px solid #cccccc",
                                     padding: "10px",
