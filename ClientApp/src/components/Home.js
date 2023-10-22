@@ -153,6 +153,8 @@ export class Home extends Component {
   }
 }
 
+
+
 const itemData = [
   {
     img: 'https://cdn.discordapp.com/attachments/902056237011709973/1161039938905722910/MV5BMWVlMDdhNzYtNDY5ZS00YzdiLWI3NWEtMDUzMGQyMWQ2NDY3XkEyXkFqcGdeQXVyNDg4NjY5OTQ._V1_FMjpg_UX1000_.jpg?ex=6536d9b4&is=652464b4&hm=c945efafe56a06539cdc8360a8772eb8b3c286aeffdcc2c38c58452120b670db&',
