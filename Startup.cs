@@ -25,10 +25,12 @@ public class Startup
         services.Configure<BackLogsDatabaseSettings>(Configuration.GetSection("BackLogsDatabase"));
         services.AddSingleton<UsersService>();
         // Add more services here as needed
+        services.AddControllers(); //api key
     }
 
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IConfiguration configuration)
     {
+        string apiKey = configuration["ApiSettings:ApiKey"]; //api key
         if (!env.IsDevelopment())
         {
             app.UseHsts();
