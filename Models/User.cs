@@ -18,6 +18,10 @@ public class User
     [JsonPropertyName("email")]
     public string Email { get; set; } = null!;
 
+    [BsonElement("password")]
+    [JsonPropertyName("password")]
+    public string Password { get; set; } = null!;
+
     [BsonElement("firstName")]
     [JsonPropertyName("firstName")]
     public string FirstName { get; set; } = null!;
