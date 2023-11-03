@@ -1,3 +1,5 @@
+using backlogs.Models;
+using backlogs.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Net.Http;
@@ -19,7 +21,7 @@ public class MobyGamesController : ControllerBase
     public async Task<IActionResult> CallApi()
     {
         string apiKey = _configuration["ApiSettings:ApiKey"];
-        string apiUrl = "https://api.mobygames.com/v1/games/random";
+        string apiUrl = "https://api.mobygames.com/v1/games/random?format=brief";
 
         using (var client = new HttpClient())
         {
