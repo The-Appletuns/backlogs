@@ -1,10 +1,14 @@
+using System.Text;
 using backlogs.Models;
 using backlogs.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 
 public class Startup
 {
@@ -23,7 +27,27 @@ public class Startup
         });
 
         services.Configure<BackLogsDatabaseSettings>(Configuration.GetSection("BackLogsDatabase"));
+        services.AddAuthentication(x =>
+        {
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(x =>
+        {
+            x.RequireHttpsMetadata = false;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("JwtKey").ToString())),
+                ValidateIssuer = false,
+                ValidateAudience = false
+            };
+        });
+
         services.AddSingleton<UsersService>();
+
+        // services.AddSingleton<IDatabaseSettings>(db => db.GetRequiredService<IOptions<BackLogsDatabaseSettings>>().Value);
         // Add more services here as needed
     }
 

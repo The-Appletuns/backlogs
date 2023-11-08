@@ -1,5 +1,9 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using backlogs.Models;
 using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using MongoDB.Driver;
 
 namespace backlogs.Services;
@@ -7,6 +11,7 @@ namespace backlogs.Services;
 public class UsersService
 {
     private readonly IMongoCollection<User> _usersCollection;
+    private readonly string key;
 
     public UsersService(
         IOptions<BackLogsDatabaseSettings> backLogsDatabaseSettings)
@@ -22,6 +27,8 @@ public class UsersService
         _usersCollection = mongoDatabase.GetCollection<User>(
             backLogsDatabaseSettings.Value.UserCollectionName
         );
+
+        this.key = configuration.GetSection("JwtKey").ToString();
     }
 
     public async Task<List<User>> GetAsync() =>
@@ -38,5 +45,38 @@ public class UsersService
     
     public async Task RemoveAsync(string id) =>
         await _usersCollection.DeleteOneAsync(x => x.id == id);
+
+
+    public string? Authenticate(string email, string password)
+    {
+        var user = this._usersCollection.Find(x => x.Email == email && x.Password == password).FirstOrDefault();
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        var tokenKey = Encoding.ASCII.GetBytes(key);
+
+        var tokenDescriptor = new SecurityTokenDescriptor() {
+
+            Subject = new ClaimsIdentity(new Claim[]{
+                new Claim(ClaimTypes.Email, email),
+            }),
+
+            Expires = DateTime.UtcNow.AddHours(1),
+
+            SigningCredentials = new SigningCredentials (
+                new SymmetricSecurityKey(tokenKey),
+                SecurityAlgorithms.HmacSha256Signature
+            )
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+
+        return tokenHandler.WriteToken(token);
+    }
 
 }
