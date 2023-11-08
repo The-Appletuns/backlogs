@@ -13,20 +13,13 @@ public class UsersService
     private readonly IMongoCollection<User> _usersCollection;
     private readonly string key;
 
-    public UsersService(
-        IOptions<BackLogsDatabaseSettings> backLogsDatabaseSettings)
+    public UsersService(IConfiguration configuration)
     {
-        var mongoClient = new MongoClient(
-            backLogsDatabaseSettings.Value.ConnectionString
-        );
+        var mongoClient = new MongoClient(configuration.GetConnectionString("BackLogsDb"));
 
-        var mongoDatabase = mongoClient.GetDatabase(
-            backLogsDatabaseSettings.Value.DatabaseName
-        );
+        var mongoDatabase = mongoClient.GetDatabase("UserData");
 
-        _usersCollection = mongoDatabase.GetCollection<User>(
-            backLogsDatabaseSettings.Value.UserCollectionName
-        );
+        _usersCollection = mongoDatabase.GetCollection<User>("UserInfo");
 
         this.key = configuration.GetSection("JwtKey").ToString();
     }

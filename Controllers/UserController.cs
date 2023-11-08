@@ -1,9 +1,11 @@
 using backlogs.Models;
 using backlogs.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace backlogs.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class UserController : ControllerBase
@@ -68,5 +70,20 @@ public class UserController : ControllerBase
         await _usersService.RemoveAsync(id);
 
         return NoContent();
+    }
+
+    [AllowAnonymous]
+    [Route("authenticate")]
+    [HttpPost]
+    public ActionResult Login( [FromBody] User user)
+    {
+        var token = _usersService.Authenticate(user.Email, user.Password);
+
+        if (token == null)
+        {
+            return Unauthorized();
+        }
+
+        return Ok(new {token, user});
     }
 }

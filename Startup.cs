@@ -1,4 +1,5 @@
 using System.Text;
+using backlogs.Database;
 using backlogs.Models;
 using backlogs.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -47,7 +48,7 @@ public class Startup
 
         services.AddSingleton<UsersService>();
 
-        // services.AddSingleton<IDatabaseSettings>(db => db.GetRequiredService<IOptions<BackLogsDatabaseSettings>>().Value);
+        services.AddSingleton<IDatabaseSettings>(db => (IDatabaseSettings)db.GetRequiredService<IOptions<BackLogsDatabaseSettings>>().Value);
         // Add more services here as needed
     }
 
@@ -61,6 +62,8 @@ public class Startup
         app.UseHttpsRedirection();
         app.UseStaticFiles();
         app.UseRouting();
+
+        app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
         {
