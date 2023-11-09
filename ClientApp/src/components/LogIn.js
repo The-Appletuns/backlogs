@@ -10,8 +10,14 @@ export class LogIn extends Component {
 
         this.state = {
             loginError: false,
-            signUp: true
+            signUp: true,
+            email: "", 
+            password: ""
         }
+
+        this.loginWindow = this.loginWindow.bind(this);
+        this.signUpWindow = this.signUpWindow.bind(this);
+        this.printState = this.printState.bind(this);
     }
 
     componentDidMount() {
@@ -31,19 +37,29 @@ export class LogIn extends Component {
                     <TextField
                         required
                         label='Username'
-                        variant='outlined'></TextField>
+                        variant='outlined'
+                        value={this.state.email}
+                        onChange={(event) => this.setState({email: event.target.value})}
+                    ></TextField>
                     <TextField
                         required
                         label='Password'
-                        variant='outlined'></TextField>
+                        variant='outlined'
+                        value={this.state.password}
+                        onChange={(event) => this.setState({password: event.target.value})}
+                    ></TextField>
                 </FormControl>
 
-                <Button variant='contained'>Login</Button>
+                <Button variant='contained' onClick={this.printState}>Login</Button>
 
                 <Typography variant='h5'>Create an account</Typography>
                 <Button variant='outlined'>Sign Up</Button>
             </Box>
         )
+    }
+
+    printState() {
+        console.log(this.state);
     }
 
     signUpWindow() {
@@ -92,9 +108,9 @@ export class LogIn extends Component {
     render() {
         var currentWindow = this.loginWindow();
 
-        if (this.state.signUp) {
-            currentWindow = this.signUpWindow();
-        }
+        // if (this.state.signUp) {
+        //     currentWindow = this.signUpWindow();
+        // }
 
         return (
             <Box>
