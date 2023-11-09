@@ -24,6 +24,10 @@ export class LogIn extends Component {
         // Send user data here
     }
 
+    onSubmit = (e) => {
+        
+    }
+
     loginWindow() {
         // Login window for user
 
