@@ -12,6 +12,19 @@ import PersonIcon from '@mui/icons-material/Person';
 export class UserProfile extends Component {
     static displayName = UserProfile.name;
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        }
+
+    }
+
+    componentDidMount() {
+        // Get user data from backend
+    }
+
     userProfileHeader() {
         // User info at the header
 
