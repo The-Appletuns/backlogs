@@ -1,6 +1,7 @@
 import { Typography, Box, FormControl, TextField } from '@mui/material';
 import React, { Component } from 'react';
 import { Button } from '@mui/material';
+import Login from "../windows/LoginWindow";
 
 export class LogIn extends Component {
     static displayName = LogIn.name;
@@ -15,8 +16,8 @@ export class LogIn extends Component {
             password: ""
         }
 
-        this.loginWindow = this.loginWindow.bind(this);
-        this.signUpWindow = this.signUpWindow.bind(this);
+        this.loginPage = this.loginPage.bind(this);
+        this.signUpPage = this.signUpPage.bind(this);
         this.printState = this.printState.bind(this);
     }
 
@@ -28,9 +29,12 @@ export class LogIn extends Component {
         
     }
 
-    loginWindow() {
+    loginPage() {
         // Login window for user
 
+        // return (
+        //     <Login/>
+        // );
         return (
             <Box>
                 <Typography variant='h3'>
@@ -66,7 +70,7 @@ export class LogIn extends Component {
         console.log(this.state);
     }
 
-    signUpWindow() {
+    signUpPage() {
         // Sign up window for user
 
         return (
@@ -110,7 +114,7 @@ export class LogIn extends Component {
     }
 
     render() {
-        var currentWindow = this.loginWindow();
+        var currentWindow = this.loginPage();
 
         // if (this.state.signUp) {
         //     currentWindow = this.signUpWindow();
