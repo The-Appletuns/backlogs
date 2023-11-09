@@ -19,14 +19,41 @@ export class LogIn extends Component {
         this.loginPage = this.loginPage.bind(this);
         this.signUpPage = this.signUpPage.bind(this);
         this.printState = this.printState.bind(this);
+        // this.loginPressed = this.loginPressed.bind(this);
     }
 
     componentDidMount() {
         // Send user data here
     }
 
-    onSubmit = (e) => {
-        
+    loginPressed = async () => {
+        // When login button pressed
+        const email = this.state.email;
+        const password = this.state.password;
+        console.log("Print pressed")
+
+        try {
+            const response = await fetch('https://localhost:8080/api/user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const token = data.token;
+
+                localStorage.setItem('token', token);
+            } else {
+                console.error('Login failed');
+            }
+        }
+        catch (error)
+        {
+            console.error('Error:', error);
+        }
     }
 
     loginPage() {
@@ -58,7 +85,7 @@ export class LogIn extends Component {
                     ></TextField>
                 </FormControl>
 
-                <Button variant='contained' onClick={this.printState}>Login</Button>
+                <Button variant='contained' onClick={this.loginPressed}>Login</Button>
 
                 <Typography variant='h5'>Create an account</Typography>
                 <Button variant='outlined'>Sign Up</Button>
