@@ -11,13 +11,11 @@ export class LogIn extends Component {
 
         this.state = {
             loginError: false,
-            signUp: true,
             email: "", 
             password: ""
         }
 
         this.loginPage = this.loginPage.bind(this);
-        this.signUpPage = this.signUpPage.bind(this);
         this.printState = this.printState.bind(this);
         // this.loginPressed = this.loginPressed.bind(this);
     }
@@ -33,7 +31,9 @@ export class LogIn extends Component {
         console.log("Print pressed")
 
         try {
-            const response = await fetch('https://localhost:8080/api/user', {
+            console.log("Got to try")
+
+            const response = await fetch('https://localhost:44414/api/user/authenticate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,7 +41,10 @@ export class LogIn extends Component {
                 body: JSON.stringify({ email, password })
             });
 
+            console.log("Got past reponse")
+
             if (response.ok) {
+                console.log("repose ok")
                 const data = await response.json();
                 const token = data.token;
 
@@ -97,55 +100,8 @@ export class LogIn extends Component {
         console.log(this.state);
     }
 
-    signUpPage() {
-        // Sign up window for user
-
-        return (
-            <Box>
-                <Typography variant='h3'>
-                    Sign up for BackLogs!
-                </Typography>
-
-                <FormControl>
-                    <TextField
-                        required
-                        label='Username'
-                        variant='outlined'></TextField>
-
-                    <TextField
-                        required
-                        label='Email'
-                        variant='outlined'></TextField>
-
-                    <TextField
-                        required
-                        label='First Name'
-                        variant='outlined'></TextField>
-
-                    <TextField
-                        label='Last Name'
-                        variant='outlined'></TextField>
-
-                    <TextField
-                        required
-                        label='Password'
-                        variant='outlined'></TextField>
-                </FormControl>
-
-                <Button variant='contained'>Sign Up</Button>
-
-                <Typography variant='h5'>Already have an account?</Typography>
-                <Button variant='outlined'>Login</Button>
-            </Box>
-        )
-    }
-
     render() {
         var currentWindow = this.loginPage();
-
-        // if (this.state.signUp) {
-        //     currentWindow = this.signUpWindow();
-        // }
 
         return (
             <Box>
