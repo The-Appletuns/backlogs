@@ -38,19 +38,23 @@ export class LogIn extends Component {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ email, password })
+                body: JSON.stringify({ "email": email, "password": password })
             });
 
             console.log("Got past reponse")
+            console.log(response)
 
+            // Isolated issue and found that other fields aside from email and password are required
             if (response.ok) {
-                console.log("repose ok")
+                console.log("Logged in")
                 const data = await response.json();
                 const token = data.token;
 
                 localStorage.setItem('token', token);
             } else {
-                console.error('Login failed');
+                const errorText = await response.text();
+
+                console.error('Login Failed. Server response: ', errorText);
             }
         }
         catch (error)
@@ -74,7 +78,7 @@ export class LogIn extends Component {
                 <FormControl>
                     <TextField
                         required
-                        label='Username'
+                        label='Email'
                         variant='outlined'
                         value={this.state.email}
                         onChange={(event) => this.setState({email: event.target.value})}
