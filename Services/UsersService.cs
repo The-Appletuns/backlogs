@@ -72,4 +72,11 @@ public class UsersService
         return tokenHandler.WriteToken(token);
     }
 
+    public string SignUp(string email, string password)
+    {
+
+
+        return "test";
+    }
+
 }

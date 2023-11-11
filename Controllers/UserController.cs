@@ -32,6 +32,8 @@ public class UserController : ControllerBase
         return user;
     }
 
+    [AllowAnonymous]
+    [Route("signup")]
     [HttpPost]
     public async Task<IActionResult> Post(User newUser)
     {
