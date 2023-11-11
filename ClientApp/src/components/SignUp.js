@@ -57,6 +57,7 @@ export class SignUp extends Component {
                 localStorage.setItem('token', token);
 
                 // Redirect to login page
+                window.location.replace('/login');
             } else {
                 const errorText = await response.text();
 

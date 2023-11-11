@@ -2,7 +2,6 @@ import { Typography, Box, FormControl, TextField } from '@mui/material';
 import React, { Component } from 'react';
 import { Button } from '@mui/material';
 import Login from "../windows/LoginWindow";
-import { useHref } from 'react-router';
 import { Link } from 'react-router-dom';
 
 export class LogIn extends Component {
@@ -55,6 +54,8 @@ export class LogIn extends Component {
                 localStorage.setItem('token', token);
 
                 // Need some way to redirect to profile after logging in
+                // Temp fix i think this is wrong
+                window.location.replace('/profile');
             } else {
                 const errorText = await response.text();
 
