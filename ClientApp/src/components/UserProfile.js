@@ -23,6 +23,9 @@ export class UserProfile extends Component {
 
     componentDidMount() {
         // Get user data from backend
+
+        // Check if user is logged in, continue to profile
+        // Else go to log in page
     }
 
     userProfileHeader() {

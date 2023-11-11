@@ -2,6 +2,8 @@ import { Typography, Box, FormControl, TextField } from '@mui/material';
 import React, { Component } from 'react';
 import { Button } from '@mui/material';
 import Login from "../windows/LoginWindow";
+import { useHref } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export class LogIn extends Component {
     static displayName = LogIn.name;
@@ -51,6 +53,8 @@ export class LogIn extends Component {
                 const token = data.token;
 
                 localStorage.setItem('token', token);
+
+                // Need some way to redirect to profile after logging in
             } else {
                 const errorText = await response.text();
 
@@ -95,7 +99,7 @@ export class LogIn extends Component {
                 <Button variant='contained' onClick={this.loginPressed}>Login</Button>
 
                 <Typography variant='h5'>Create an account</Typography>
-                <Button variant='outlined'>Sign Up</Button>
+                <Button component={Link} to="/signup" variant='outlined'>Sign Up</Button>
             </Box>
         )
     }

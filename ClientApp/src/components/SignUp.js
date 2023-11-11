@@ -11,6 +11,8 @@ export class SignUp extends Component {
         this.state = {
 
         }
+
+
     }
 
     componentDidMount() {
@@ -63,7 +65,7 @@ export class SignUp extends Component {
     render() {
         return (
             <Box>
-                {this.signUpPage}
+                {this.signUpPage()}
             </Box>
         )
     }
