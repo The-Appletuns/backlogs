@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import Button from '@mui/material';
-import TextField from '@mui/material';
-import FormControl from '@mui/material';
-import Typography from '@mui/material';
-import Box from '@mui/material';
+import { Typography, Box, FormControl, TextField } from '@mui/material';
+import { Button } from '@mui/material';
 
 export class SignUp extends Component {
     static displayName = SignUp.name;
