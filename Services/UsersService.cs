@@ -10,7 +10,7 @@ namespace backlogs.Services;
 
 public class UsersService
 {
-    private readonly IMongoCollection<UserLogin> _usersCollection;
+    private readonly IMongoCollection<User> _usersCollection;
     private readonly string key;
 
     public UsersService(IConfiguration configuration)
@@ -19,21 +19,21 @@ public class UsersService
 
         var mongoDatabase = mongoClient.GetDatabase("UserData");
 
-        _usersCollection = mongoDatabase.GetCollection<UserLogin>("UserInfo");
+        _usersCollection = mongoDatabase.GetCollection<User>("UserInfo");
 
         this.key = configuration.GetSection("JwtKey").ToString();
     }
 
-    public async Task<List<UserLogin>> GetAsync() =>
+    public async Task<List<User>> GetAsync() =>
         await _usersCollection.Find(_ => true).ToListAsync();
 
-    public async Task<UserLogin?> GetAsync(string id) =>
+    public async Task<User?> GetAsync(string id) =>
         await _usersCollection.Find(x => x.id == id).FirstOrDefaultAsync();
     
-    public async Task CreateAsync(UserLogin newUser) =>
+    public async Task CreateAsync(User newUser) =>
         await _usersCollection.InsertOneAsync(newUser);
 
-    public async Task UpdateAsync(string id, UserLogin updatedUser) =>
+    public async Task UpdateAsync(string id, User updatedUser) =>
         await _usersCollection.ReplaceOneAsync(x => x.id == id, updatedUser);
     
     public async Task RemoveAsync(string id) =>

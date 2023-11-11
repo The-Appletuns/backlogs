@@ -12,36 +12,36 @@ public class User
 
     [BsonElement("username")]
     [JsonPropertyName("username")]
-    public string Username { get; set; } = null!;
+    public string? Username { get; set; } = null!;
 
     [BsonElement("email")]
     [JsonPropertyName("email")]
-    public string Email { get; set; } = null!;
+    public string? Email { get; set; } = null!;
 
     [BsonElement("password")]
     [JsonPropertyName("password")]
-    public string Password { get; set; } = null!;
+    public string? Password { get; set; } = null!;
 
     [BsonElement("firstName")]
     [JsonPropertyName("firstName")]
-    public string FirstName { get; set; } = null!;
+    public string? FirstName { get; set; } = null!;
 
     [BsonElement("lastName")]
     [JsonPropertyName("lastName")]
-    public string LastName { get; set; } = null!;
+    public string? LastName { get; set; } = null!;
 
     [BsonElement("followers")]
     [BsonRepresentation(BsonType.ObjectId)]
     [JsonPropertyName("followers")]
-    public List<string?> Followers { get; set; } = null!;
+    public List<string?>? Followers { get; set; } = null!;
 
     [BsonElement("following")]
     [BsonRepresentation(BsonType.ObjectId)]
     [JsonPropertyName("following")]
-    public List<string?> Following { get; set; } = null!;
+    public List<string?>? Following { get; set; } = null!;
 
     [BsonElement("games")]
     [BsonRepresentation(BsonType.ObjectId)]
     [JsonPropertyName("games")]
-    public List<string?> Games { get; set; } = null!;
+    public List<string?>? Games { get; set; } = null!;
 }
