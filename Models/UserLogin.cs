@@ -4,6 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace backlogs.Models;
 
+[BsonIgnoreExtraElements]
 public class UserLogin
 {
     [BsonId]
