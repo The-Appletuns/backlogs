@@ -19,7 +19,6 @@ public class UserController : ControllerBase
     public async Task<List<User>> Get() =>
         await _usersService.GetAsync();
     
-    [Authorize]
     [HttpGet("{id:length(24)}")]
     public async Task<ActionResult<User>> Get(string id)
     {

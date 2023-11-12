@@ -32,9 +32,11 @@ export class UserProfile extends Component {
     async componentDidMount() {
         // Get user data from backend
         const token = localStorage.getItem('token');
+        console.log("Token: " + token);
 
         if (!token) {
             console.error("ERROR Token does not exist");
+            window.location.replace('/login');
             return;
         }
 
@@ -68,22 +70,6 @@ export class UserProfile extends Component {
                     games: data.games
                 })
             }
-
-            // fetch(dbAccess)
-            //     .then(response => response.json())
-            //     .then(data => {
-            //         this.setState({
-            //             username: data.username,
-            //             firstName: data.firstName,
-            //             lastName: data.lastName,
-            //             followers: data.followers,
-            //             following: data.following,
-            //             games: data.games
-            //         })
-            //     })
-            //     .catch(error => {
-            //         console.error('Error fetching user data: ', error);
-            //     })
         } else {
             // Redirect the user to the login page
         }
