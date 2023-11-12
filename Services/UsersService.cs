@@ -72,11 +72,11 @@ public class UsersService
         return tokenHandler.WriteToken(token);
     }
 
-    public string SignUp(string email, string password)
+    public User? GetUserFromEmail(string email)
     {
+        var user = this._usersCollection.Find(x => x.Email == email).FirstOrDefault();
 
-
-        return "test";
+        return user;
     }
 
 }

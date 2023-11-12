@@ -49,9 +49,16 @@ export class LogIn extends Component {
             if (response.ok) {
                 console.log("Logged in")
                 const data = await response.json();
+
+                console.log(data);
+                console.log(data.currentUser);
+                console.log(data.currentUser.id);
+
                 const token = data.token;
+                const userID = data.currentUser.id;
 
                 localStorage.setItem('token', token);
+                localStorage.setItem('userID', userID);
 
                 // Need some way to redirect to profile after logging in
                 // Temp fix i think this is wrong

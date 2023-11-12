@@ -16,16 +16,78 @@ export class UserProfile extends Component {
         super(props);
 
         this.state = {
-
+            username: 'Username',
+            firstName: 'First Name',
+            lastName: 'Last Name',
+            followers: [],
+            followersCount: 0,
+            following: [],
+            followingCount: 0,
+            games: [],
+            gamesCount: 0
         }
 
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         // Get user data from backend
+        const token = localStorage.getItem('token');
 
-        // Check if user is logged in, continue to profile
-        // Else go to log in page
+        if (!token) {
+            console.error("ERROR Token does not exist");
+            return;
+        }
+
+        // Check if user is logged in
+        const isLoggedIn = localStorage.getItem('userID');
+        console.log("Component Mounted");
+        console.log(isLoggedIn);
+
+        const dbAccess = 'https://localhost:44414/api/user/' + isLoggedIn;
+        const authToken = 'Bearer ' + token;
+
+        if (isLoggedIn != null) {
+            console.log("Token is not NULL, fetching data now");
+
+            const response = await fetch(dbAccess, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                this.setState({
+                    username: data.username,
+                    firstName: data.firstName,
+                    lastName: data.lastName,
+                    followers: data.followers,
+                    following: data.following,
+                    games: data.games
+                })
+            }
+
+            // fetch(dbAccess)
+            //     .then(response => response.json())
+            //     .then(data => {
+            //         this.setState({
+            //             username: data.username,
+            //             firstName: data.firstName,
+            //             lastName: data.lastName,
+            //             followers: data.followers,
+            //             following: data.following,
+            //             games: data.games
+            //         })
+            //     })
+            //     .catch(error => {
+            //         console.error('Error fetching user data: ', error);
+            //     })
+        } else {
+            // Redirect the user to the login page
+        }
+
     }
 
     userProfileHeader() {
@@ -42,7 +104,7 @@ export class UserProfile extends Component {
                     <PersonIcon fontSize='large'/>
 
                     {/* Username is the username lmao */}
-                    <Typography variant='h2'>Username</Typography>
+                    <Typography variant='h2'>{this.state.username}</Typography>
 
                     {/* Button would either be Follow, Following, Edit Profile */}
                     <Button variant='contained' size='large'>Follow</Button>
@@ -55,19 +117,19 @@ export class UserProfile extends Component {
 
                     {/* Number of games played */}
                     <Box>
-                        <Typography variant='h5'>##</Typography>
+                        <Typography variant='h5'>{this.state.gamesCount}</Typography>
                         <Typography variant='h5'>Games</Typography>
                     </Box>
 
                     {/* Number of people following */}
                     <Box>
-                        <Typography variant='h5'>##</Typography>
+                        <Typography variant='h5'>{this.state.followingCount}</Typography>
                         <Typography variant='h5'>Following</Typography>
                     </Box>
 
                     {/* Number of followers */}
                     <Box>
-                        <Typography variant='h5'>##</Typography>
+                        <Typography variant='h5'>{this.state.followersCount}</Typography>
                         <Typography variant='h5'>Followers</Typography>
                     </Box>
                 </Stack>
