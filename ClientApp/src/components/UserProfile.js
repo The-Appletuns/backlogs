@@ -24,7 +24,7 @@ export class UserProfile extends Component {
             following: [],
             followingCount: 0,
             games: [],
-            gamesCount: 0
+            gamesCount: 0,
         }
 
         this.signOut = this.signOut.bind(this);
@@ -44,7 +44,7 @@ export class UserProfile extends Component {
         }
 
         // Check if user is logged in
-        const isLoggedIn = localStorage.getItem('userID');
+        const isLoggedIn = localStorage.getItem('mainUserID');
         console.log("Component Mounted");
         console.log(isLoggedIn);
 

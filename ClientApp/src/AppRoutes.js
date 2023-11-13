@@ -13,18 +13,6 @@ const AppRoutes = [
     index: true,
     element: <Home />
   },
-  // {
-  //   path: '/counter',
-  //   element: <Counter />
-  // },
-  // {
-  //   path: '/fetch-data',
-  //   element: <FetchData />
-  // },
-  // {
-  //   path: '/testing',
-  //   element: <Testing />
-  // },
   {
     path: '/profile',
     element: <UserProfile />
@@ -33,10 +21,6 @@ const AppRoutes = [
     path: '/search-game',
     element: <SearchGame />
   },
-  // {
-  //   path: '/user-list',
-  //   element: <UserList />
-  // },
   {
     path: '/login',
     element: <LogIn />

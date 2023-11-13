@@ -57,7 +57,7 @@ export class LogIn extends Component {
                 const userID = data.currentUser.id;
 
                 localStorage.setItem('token', token);
-                localStorage.setItem('userID', userID);
+                localStorage.setItem('mainUserID', userID);
 
                 // Need some way to redirect to profile after logging in
                 // Temp fix i think this is wrong
