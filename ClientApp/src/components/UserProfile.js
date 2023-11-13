@@ -27,6 +27,9 @@ export class UserProfile extends Component {
             gamesCount: 0
         }
 
+        this.signOut = this.signOut.bind(this);
+        this.userProfileHeader = this.userProfileHeader.bind(this);
+        this.userProfileBody = this.userProfileBody.bind(this);
     }
 
     async componentDidMount() {
@@ -66,14 +69,36 @@ export class UserProfile extends Component {
                     firstName: data.firstName,
                     lastName: data.lastName,
                     followers: data.followers,
+                    followersCount: data.followers.length,
                     following: data.following,
-                    games: data.games
+                    followingCount: data.following.length,
+                    games: data.games,
+                    gamesCount: data.games.length
                 })
             }
         } else {
             // Redirect the user to the login page
         }
 
+    }
+
+    signOut() {
+        // Logout and reset state
+
+        console.log("Signing out");
+        localStorage.clear();
+        this.setState({
+            username: 'Username',
+            firstName: 'First Name',
+            lastName: 'Last Name',
+            followers: [],
+            followersCount: 0,
+            following: [],
+            followingCount: 0,
+            games: [],
+            gamesCount: 0
+        });
+        window.location.replace('/login');
     }
 
     userProfileHeader() {
@@ -119,6 +144,7 @@ export class UserProfile extends Component {
                         <Typography variant='h5'>Followers</Typography>
                     </Box>
                 </Stack>
+                <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button>
             </Stack>
         )
     }

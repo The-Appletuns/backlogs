@@ -1,7 +1,6 @@
 import { Typography, Box, FormControl, TextField } from '@mui/material';
 import React, { Component } from 'react';
 import { Button } from '@mui/material';
-import Login from "../windows/LoginWindow";
 import { Link } from 'react-router-dom';
 
 export class LogIn extends Component {
@@ -78,9 +77,6 @@ export class LogIn extends Component {
     loginPage() {
         // Login window for user
 
-        // return (
-        //     <Login/>
-        // );
         return (
             <Box>
                 <Typography variant='h3'>
