@@ -39,68 +39,7 @@ class UserProfile extends Component {
         const userID = this.props.params.userId || localStorage.getItem('mainUserID');
         console.log('UserID:', userID);
         await this.fetchUserData(userID);
-
-        // Get user data from backend
-        // const token = localStorage.getItem('token');
-
-        // if (!token) {
-        //     console.error("ERROR Token does not exist");
-        //     window.location.replace('/login');
-        //     return;
-        // }
-
-        // // Check if user is logged in
-        // const { match } = this.props.params.userId;
-        // if (!match) {
-        //     console.error("ERROR: Match is undefined");
-        // }
-
-        // console.log(this.props);
-        // console.log(match);
-
-        // const userID = match.params.userId || localStorage.getItem('mainUserID');
-        // // const userID = localStorage.getItem('mainUserID');
-        // console.log("Component Mounted");
-        // console.log(userID);
-
-        // const dbAccess = 'https://localhost:44414/api/user/' + userID;
-        // const authToken = 'Bearer ' + token;
-
-        // if (userID != null) {
-
-        //     const response = await fetch(dbAccess, {
-        //         method: 'GET',
-        //         headers: {
-        //             'Content-Type': 'application/json',
-        //             'Authorization': authToken
-        //         }
-        //     });
-
-        //     if (response.ok) {
-        //         const data = await response.json();
-        //         this.setState({
-        //             username: data.username,
-        //             firstName: data.firstName,
-        //             lastName: data.lastName,
-        //             followers: data.followers,
-        //             followersCount: this.checkArrayEmpty(data.followers),
-        //             following: data.following,
-        //             followingCount: this.checkArrayEmpty(data.following),
-        //             games: data.games,
-        //             gamesCount: this.checkArrayEmpty(data.games)
-        //         })
-        //     }
-        // }
     }
-
-    // async componentDidUpdate(prevProps) {
-    //     const { match } = this.props;
-
-    //     if (match.params.userId !== prevProps.match.params.userId) {
-    //         const newUserID = match.params.userId || localStorage.getItem('mainUserID');
-    //         await this.fetchUserData(newUserID);
-    //     }
-    // }
 
     async fetchUserData(userID) {
         const token = localStorage.getItem('token');
