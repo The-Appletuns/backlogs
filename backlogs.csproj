@@ -16,9 +16,12 @@
   <ItemGroup>
     <PackageReference Include="DeviceDetector.NET" Version="6.1.4" />
     <PackageReference Include="Ical.Net" Version="4.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="7.0.5" />
     <PackageReference Include="MongoDB.Driver" Version="2.21.0" />
     <PackageReference Include="stream-chat-net" Version="2.3.0" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.0.3" />
   </ItemGroup>
 
   <ItemGroup>
