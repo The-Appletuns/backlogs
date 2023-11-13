@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import PersonIcon from '@mui/icons-material/Person';
 
 
+
 export class UserProfile extends Component {
     static displayName = UserProfile.name;
 
@@ -35,7 +36,6 @@ export class UserProfile extends Component {
     async componentDidMount() {
         // Get user data from backend
         const token = localStorage.getItem('token');
-        console.log("Token: " + token);
 
         if (!token) {
             console.error("ERROR Token does not exist");
@@ -44,15 +44,23 @@ export class UserProfile extends Component {
         }
 
         // Check if user is logged in
-        const isLoggedIn = localStorage.getItem('mainUserID');
-        console.log("Component Mounted");
-        console.log(isLoggedIn);
+        const { match } = this.props;
+        if (!match) {
+            console.error("ERROR: Match is undefined");
+            return;
+        }
 
-        const dbAccess = 'https://localhost:44414/api/user/' + isLoggedIn;
+        console.log(this.props);
+        console.log(match);
+
+        const userID = match.params.userId || localStorage.getItem('mainUserID');
+        console.log("Component Mounted");
+        console.log(userID);
+
+        const dbAccess = 'https://localhost:44414/api/user/' + userID;
         const authToken = 'Bearer ' + token;
 
-        if (isLoggedIn != null) {
-            console.log("Token is not NULL, fetching data now");
+        if (userID != null) {
 
             const response = await fetch(dbAccess, {
                 method: 'GET',
@@ -76,8 +84,6 @@ export class UserProfile extends Component {
                     gamesCount: this.checkArrayEmpty(data.games)
                 })
             }
-        } else {
-            // Redirect the user to the login page
         }
 
     }
