@@ -69,11 +69,11 @@ export class UserProfile extends Component {
                     firstName: data.firstName,
                     lastName: data.lastName,
                     followers: data.followers,
-                    followersCount: data.followers.length,
+                    followersCount: this.checkArrayEmpty(data.followers),
                     following: data.following,
-                    followingCount: data.following.length,
+                    followingCount: this.checkArrayEmpty(data.following),
                     games: data.games,
-                    gamesCount: data.games.length
+                    gamesCount: this.checkArrayEmpty(data.games)
                 })
             }
         } else {
@@ -99,6 +99,16 @@ export class UserProfile extends Component {
             gamesCount: 0
         });
         window.location.replace('/login');
+    }
+
+    checkArrayEmpty(arr) {
+        if (arr.length === 1) {
+            if (arr[0] === "") {
+                return 0;
+            }
+        }
+
+        return arr.length;
     }
 
     userProfileHeader() {
