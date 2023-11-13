@@ -33,7 +33,7 @@ export class LogIn extends Component {
         try {
             console.log("Got to try")
 
-            const response = await fetch('https://localhost:44414/api/user/authenticate', {
+            const response = await fetch('http://ec2-54-183-127-27.us-west-1.compute.amazonaws.com/api/user/authenticate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

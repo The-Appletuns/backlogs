@@ -35,7 +35,7 @@ export class SignUp extends Component {
         try {
             // Submit data here
 
-            const response = await fetch('https://localhost:44414/api/user/signup', {
+            const response = await fetch('http://ec2-54-183-127-27.us-west-1.compute.amazonaws.com/api/user/signup', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

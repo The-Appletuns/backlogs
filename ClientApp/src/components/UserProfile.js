@@ -50,7 +50,7 @@ class UserProfile extends Component {
             return;
         }
 
-        const dbAccess = 'https://localhost:44414/api/user/' + userID;
+        const dbAccess = 'http://ec2-54-183-127-27.us-west-1.compute.amazonaws.com/api/user/' + userID;
         const authToken = 'Bearer ' + token;
 
         try {
