@@ -2,32 +2,32 @@ import { Home } from "./components/Home";
 import { LogIn } from "./components/LogIn";
 import { SearchGame } from "./components/SearchGame";
 import { SignUp } from "./components/SignUp";
-import { UserProfile } from "./components/UserProfile";
+import UserProfile from "./components/UserProfile";
 
 const AppRoutes = [
   {
     index: true,
-    element: () => <Home />
+    element: <Home />
   },
   {
     path: '/profile',
-    element: () => <UserProfile />
+    element: <UserProfile />
   },
   {
     path: '/profile/:userId',
-    element: (props) => <UserProfile {...props} />
+    element: <UserProfile />
   },
   {
     path: '/search-game',
-    element: () => <SearchGame />
+    element: <SearchGame />
   },
   {
     path: '/login',
-    element: () => <LogIn />
+    element: <LogIn />
   },
   {
     path: '/signup',
-    element: () => <SignUp />
+    element: <SignUp />
   }
 ];
 

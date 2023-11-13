@@ -7,10 +7,9 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 
 import PersonIcon from '@mui/icons-material/Person';
+import withRouter from '../windows/withRouter';
 
-
-
-export class UserProfile extends Component {
+class UserProfile extends Component {
     static displayName = UserProfile.name;
 
     constructor(props) {
@@ -32,20 +31,14 @@ export class UserProfile extends Component {
         this.userProfileHeader = this.userProfileHeader.bind(this);
         this.userProfileBody = this.userProfileBody.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
-        this.componentDidUpdate = this.componentDidUpdate.bind(this);
     }
 
     async componentDidMount() {
-        const { match } = this.props;
+        console.log('UserProfile componentDidMount', this.props.params.userId);
 
-        if (match && match.params.userId) {
-            const userID = match.params.userId || localStorage.getItem('mainUserID');
-            await this.fetchUserData(userID);
-        } else {
-            const userID = localStorage.getItem('mainUserID');
-            await this.fetchUserData(userID);
-            console.error ("Error: Match or user ID is undefined");
-        }
+        const userID = this.props.params.userId || localStorage.getItem('mainUserID');
+        console.log('UserID:', userID);
+        await this.fetchUserData(userID);
 
         // Get user data from backend
         // const token = localStorage.getItem('token');
@@ -57,11 +50,10 @@ export class UserProfile extends Component {
         // }
 
         // // Check if user is logged in
-        // const { match } = this.props;
-        // // if (!match) {
-        // //     console.error("ERROR: Match is undefined");
-        // //     return;
-        // // }
+        // const { match } = this.props.params.userId;
+        // if (!match) {
+        //     console.error("ERROR: Match is undefined");
+        // }
 
         // console.log(this.props);
         // console.log(match);
@@ -101,14 +93,14 @@ export class UserProfile extends Component {
         // }
     }
 
-    async componentDidUpdate(prevProps) {
-        const { match } = this.props;
+    // async componentDidUpdate(prevProps) {
+    //     const { match } = this.props;
 
-        if (match.params.userId !== prevProps.match.params.userId) {
-            const newUserID = match.params.userId || localStorage.getItem('mainUserID');
-            await this.fetchUserData(newUserID);
-        }
-    }
+    //     if (match.params.userId !== prevProps.match.params.userId) {
+    //         const newUserID = match.params.userId || localStorage.getItem('mainUserID');
+    //         await this.fetchUserData(newUserID);
+    //     }
+    // }
 
     async fetchUserData(userID) {
         const token = localStorage.getItem('token');
@@ -275,3 +267,5 @@ export class UserProfile extends Component {
         )
     }
 }
+
+export default withRouter(UserProfile);
