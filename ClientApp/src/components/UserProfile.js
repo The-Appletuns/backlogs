@@ -31,6 +31,7 @@ export class UserProfile extends Component {
         this.signOut = this.signOut.bind(this);
         this.userProfileHeader = this.userProfileHeader.bind(this);
         this.userProfileBody = this.userProfileBody.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     }
 
     async componentDidMount() {
@@ -45,15 +46,16 @@ export class UserProfile extends Component {
 
         // Check if user is logged in
         const { match } = this.props;
-        if (!match) {
-            console.error("ERROR: Match is undefined");
-            return;
-        }
+        // if (!match) {
+        //     console.error("ERROR: Match is undefined");
+        //     return;
+        // }
 
         console.log(this.props);
         console.log(match);
 
-        const userID = match.params.userId || localStorage.getItem('mainUserID');
+        // const userID = match.params.userId || localStorage.getItem('mainUserID');
+        const userID = localStorage.getItem('mainUserID');
         console.log("Component Mounted");
         console.log(userID);
 
