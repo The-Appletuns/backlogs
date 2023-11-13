@@ -32,10 +32,85 @@ export class UserProfile extends Component {
         this.userProfileHeader = this.userProfileHeader.bind(this);
         this.userProfileBody = this.userProfileBody.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.componentDidUpdate = this.componentDidUpdate.bind(this);
     }
 
     async componentDidMount() {
+        const { match } = this.props;
+
+        if (match && match.params.userId) {
+            const userID = match.params.userId || localStorage.getItem('mainUserID');
+            await this.fetchUserData(userID);
+        } else {
+            const userID = localStorage.getItem('mainUserID');
+            await this.fetchUserData(userID);
+            console.error ("Error: Match or user ID is undefined");
+        }
+
         // Get user data from backend
+        // const token = localStorage.getItem('token');
+
+        // if (!token) {
+        //     console.error("ERROR Token does not exist");
+        //     window.location.replace('/login');
+        //     return;
+        // }
+
+        // // Check if user is logged in
+        // const { match } = this.props;
+        // // if (!match) {
+        // //     console.error("ERROR: Match is undefined");
+        // //     return;
+        // // }
+
+        // console.log(this.props);
+        // console.log(match);
+
+        // const userID = match.params.userId || localStorage.getItem('mainUserID');
+        // // const userID = localStorage.getItem('mainUserID');
+        // console.log("Component Mounted");
+        // console.log(userID);
+
+        // const dbAccess = 'https://localhost:44414/api/user/' + userID;
+        // const authToken = 'Bearer ' + token;
+
+        // if (userID != null) {
+
+        //     const response = await fetch(dbAccess, {
+        //         method: 'GET',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //             'Authorization': authToken
+        //         }
+        //     });
+
+        //     if (response.ok) {
+        //         const data = await response.json();
+        //         this.setState({
+        //             username: data.username,
+        //             firstName: data.firstName,
+        //             lastName: data.lastName,
+        //             followers: data.followers,
+        //             followersCount: this.checkArrayEmpty(data.followers),
+        //             following: data.following,
+        //             followingCount: this.checkArrayEmpty(data.following),
+        //             games: data.games,
+        //             gamesCount: this.checkArrayEmpty(data.games)
+        //         })
+        //     }
+        // }
+    }
+
+    async componentDidUpdate(prevProps) {
+        const { match } = this.props;
+
+        if (match.params.userId !== prevProps.match.params.userId) {
+            const newUserID = match.params.userId || localStorage.getItem('mainUserID');
+            await this.fetchUserData(newUserID);
+        }
+    }
+
+    async fetchUserData(userID) {
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -44,26 +119,10 @@ export class UserProfile extends Component {
             return;
         }
 
-        // Check if user is logged in
-        const { match } = this.props;
-        // if (!match) {
-        //     console.error("ERROR: Match is undefined");
-        //     return;
-        // }
-
-        console.log(this.props);
-        console.log(match);
-
-        // const userID = match.params.userId || localStorage.getItem('mainUserID');
-        const userID = localStorage.getItem('mainUserID');
-        console.log("Component Mounted");
-        console.log(userID);
-
         const dbAccess = 'https://localhost:44414/api/user/' + userID;
         const authToken = 'Bearer ' + token;
 
-        if (userID != null) {
-
+        try {
             const response = await fetch(dbAccess, {
                 method: 'GET',
                 headers: {
@@ -85,9 +144,12 @@ export class UserProfile extends Component {
                     games: data.games,
                     gamesCount: this.checkArrayEmpty(data.games)
                 })
+            } else {
+                console.error("error fetching user data: ", response.statusText);
             }
+        } catch (error) {
+            console.error("Error fetching user data: ", error.message);
         }
-
     }
 
     signOut() {
