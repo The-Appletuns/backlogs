@@ -41,6 +41,14 @@ class UserProfile extends Component {
         await this.fetchUserData(userID);
     }
 
+    async componentDidUpdate() {
+        console.log('UserProfile componentDidUpdate', this.props.params.userId);
+
+        const userID = this.props.params.userId || localStorage.getItem('mainUserID');
+        console.log('UserID:', userID);
+        await this.fetchUserData(userID);
+    }
+
     async fetchUserData(userID) {
         const token = localStorage.getItem('token');
 
