@@ -1,11 +1,8 @@
-import { Counter } from "./components/Counter";
-import { FetchData } from "./components/FetchData";
 import { Home } from "./components/Home";
 import { LogIn } from "./components/LogIn";
 import { SearchGame } from "./components/SearchGame";
-import { Testing } from "./components/Testing";
-import { UserList } from "./components/UserList";
-import { UserProfile } from "./components/UserProfile";
+import { SignUp } from "./components/SignUp";
+import UserProfile from "./components/UserProfile";
 
 const AppRoutes = [
   {
@@ -13,19 +10,11 @@ const AppRoutes = [
     element: <Home />
   },
   {
-    path: '/counter',
-    element: <Counter />
+    path: '/profile',
+    element: <UserProfile />
   },
   {
-    path: '/fetch-data',
-    element: <FetchData />
-  },
-  {
-    path: '/testing',
-    element: <Testing />
-  },
-  {
-    path: '/user-profile',
+    path: '/profile/:userId',
     element: <UserProfile />
   },
   {
@@ -33,12 +22,12 @@ const AppRoutes = [
     element: <SearchGame />
   },
   {
-    path: '/user-list',
-    element: <UserList />
-  },
-  {
     path: '/login',
     element: <LogIn />
+  },
+  {
+    path: '/signup',
+    element: <SignUp />
   }
 ];
 
