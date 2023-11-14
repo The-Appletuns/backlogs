@@ -13,7 +13,10 @@ export class SignUp extends Component {
             email: "",
             firstName: "",
             lastName: "",
-            password: ""
+            password: "",
+            following: [],
+            followers: [],
+            games: [],
         }
 
         this.signUpPage = this.signUpPage.bind(this);
@@ -45,7 +48,10 @@ export class SignUp extends Component {
                     "email": email,
                     "firstName": firstName,
                     "lastName": lastName,
-                    "password": password
+                    "password": password,
+                    "followers": [],
+                    "following": [],
+                    "games": []
                 })
             });
 
