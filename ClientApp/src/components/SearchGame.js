@@ -5,31 +5,34 @@ import {Box, Button, TextField, Autocomplete, Grid, Typography, MenuItem, Select
 
 const games = ["Baldur's Gate III", "Persona 5: Royal", "Animal Crossing: New Leaf", "The Sims 4"];
 
+const people = ["Jane Doe", "James Doe"];
+
+const listdata = games.concat(people);
+
 export class SearchGame extends Component {
     static displayName = SearchGame.name;
     
     render() {
         return (
-
             <><Box
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
                 marginBottom={4}
             >
-                <h1>Search Game</h1>
+                <h1>Search</h1>
             </Box>
             <Autocomplete
                 style={{ width: "100%"}}
-                options={games}
+                options={listdata}
                 renderInput={(params) => {
                     return (
                         <div ref={params.InputProps.ref}>
                             {/* <label htmlFor='game-lists'>Game Title:</label> */}
                             <input
-                                id='game-lists'
+                                id= 'list'
                                 type='text'
-                                placeholder='Game Title'
+                                placeholder='search game title, users'
                                 style={{
                                     border: "1px solid #cccccc",
                                     padding: "10px",
@@ -41,8 +44,8 @@ export class SearchGame extends Component {
                     );
                 }}
             />
-            {/* First Select */}
-            <FormControl >
+            {/*First Select*/}
+            {/*} <FormControl >
                 <InputLabel id="genre-select-label">Genre</InputLabel>  
                 <Select
                     labelId="genre-select-label"
@@ -59,10 +62,10 @@ export class SearchGame extends Component {
                     <MenuItem value={4}>Simulatiom</MenuItem>
                     <MenuItem value={5}>Yellow</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl>*/}
 
             {/* Second Select */}
-            <FormControl>
+            {/*<FormControl>
                 <InputLabel id="platform-select-label">Platform</InputLabel> 
                 <Select
                     labelId="platform-select-label"
@@ -77,10 +80,10 @@ export class SearchGame extends Component {
                     <MenuItem value={2}>Xbox</MenuItem>
                     <MenuItem value={3}>PC</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl> */}
 
             {/* Third Select */}
-            <FormControl>
+            {/*<FormControl>
                 <InputLabel id="rating-select-label">Rating</InputLabel>
                 <Select
                     labelId="rating-select-label"
@@ -97,9 +100,9 @@ export class SearchGame extends Component {
                     <MenuItem value={4}>2 Stars</MenuItem>
                     <MenuItem value={5}>1 Star</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl>*/}
 
-            <FormControl>
+            {/*<FormControl>
                 <InputLabel id="setting-select-label">Setting</InputLabel>
                 <Select
                     labelId="setting-select-label"
@@ -114,9 +117,9 @@ export class SearchGame extends Component {
                     <MenuItem value={2}>Post-apocalyptic</MenuItem>
                     <MenuItem value={3}>Sci-fi</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl>/*}
 
-            <FormControl>
+            {/*<FormControl>
                 <InputLabel id="date-select-label">Release Date</InputLabel>
                 <Select
                     labelId="date-select-label"
@@ -133,7 +136,7 @@ export class SearchGame extends Component {
                     <MenuItem value={3}>2023</MenuItem>
 
                 </Select>
-            </FormControl>
+            </FormControl>*/}
             </>
 
             
