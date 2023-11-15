@@ -137,6 +137,39 @@ class UserProfile extends Component {
         return arr.length;
     }
 
+    followState(profileID) {
+        // 
+        // Checks if user follows this user or not
+        //      Returns appropriate button
+        // 
+
+        const userFollows = localStorage.getItem("userFollowing");
+
+        if (userFollows.includes(profileID)) {
+            // Place "followed" or "unfollow" button here
+            return (
+                <Button>
+                    Unfollow
+                </Button>
+            );
+        } else {
+            // Place "follow" button here
+            return (
+                <Button>
+                    Follow
+                </Button>
+            );
+        }
+    }
+
+    followUser() {
+        //
+        // Follow user
+        //      Should add user to following list
+        //      Should add profile user to follower list
+        // 
+    }
+
     userProfileHeader() {
         // User info at the header
 
