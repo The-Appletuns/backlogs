@@ -25,6 +25,7 @@ class UserProfile extends Component {
             followingCount: 0,
             games: [],
             gamesCount: 0,
+            userType: null
         }
 
         this.signOut = this.signOut.bind(this);
@@ -34,6 +35,12 @@ class UserProfile extends Component {
     }
 
     async componentDidMount() {
+        // 
+        // Once backend connected, checks if there is a /profile/{userid} or /profile link
+        //      if with userid then go to that user profile specifically
+        //      else go to the current user whos logged in
+        // 
+
         console.log('UserProfile componentDidMount', this.props.params.userId);
 
         const userID = this.props.params.userId || localStorage.getItem('mainUserID');
@@ -50,6 +57,10 @@ class UserProfile extends Component {
     }
 
     async fetchUserData(userID) {
+        // 
+        // Gets user information
+        // 
+
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -92,7 +103,9 @@ class UserProfile extends Component {
     }
 
     signOut() {
-        // Logout and reset state
+        // 
+        // Logout and reset state + delete token
+        // 
 
         console.log("Signing out");
         localStorage.clear();
@@ -111,6 +124,10 @@ class UserProfile extends Component {
     }
 
     checkArrayEmpty(arr) {
+        // 
+        // Checks if the array is empty to make sure to give a value of 0
+        // 
+
         if (arr.length === 1) {
             if (arr[0] === "") {
                 return 0;
