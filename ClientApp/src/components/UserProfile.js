@@ -137,26 +137,36 @@ class UserProfile extends Component {
         return arr.length;
     }
 
-    followState(profileID) {
+    followButtonState() {
         // 
         // Checks if user follows this user or not
         //      Returns appropriate button
         // 
 
-        const userFollows = localStorage.getItem("userFollowing");
+        const currentProfile = this.props.params.userId;
+        // This is null
+        const userFollows = localStorage.getItem("mainUserFollowing");
 
-        if (userFollows.includes(profileID)) {
-            // Place "followed" or "unfollow" button here
-            return (
-                <Button>
-                    Unfollow
-                </Button>
-            );
+        if (currentProfile != null) {
+            if (userFollows.includes(currentProfile)) {
+                // Place "followed" or "unfollow" button here
+                return (
+                    <Button>
+                        Unfollow
+                    </Button>
+                );
+            } else {
+                // Place "follow" button here
+                return (
+                    <Button>
+                        Follow
+                    </Button>
+                );
+            }
         } else {
-            // Place "follow" button here
             return (
-                <Button>
-                    Follow
+                <Button variant='contained' size='small' onClick={this.signOut}>
+                    Sign Out
                 </Button>
             );
         }
@@ -168,6 +178,8 @@ class UserProfile extends Component {
         //      Should add user to following list
         //      Should add profile user to follower list
         // 
+
+
     }
 
     userProfileHeader() {
@@ -187,7 +199,7 @@ class UserProfile extends Component {
                     <Typography variant='h2'>{this.state.username}</Typography>
 
                     {/* Button would either be Follow, Following, Edit Profile */}
-                    <Button variant='contained' size='large'>Follow</Button>
+                    {/* <Button variant='contained' size='large'>Follow</Button> */}
                 </Stack>
                 <Stack 
                     direction="row"
@@ -213,7 +225,8 @@ class UserProfile extends Component {
                         <Typography variant='h5'>Followers</Typography>
                     </Box>
                 </Stack>
-                <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button>
+                {/* <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button> */}
+                {this.followButtonState()}
             </Stack>
         )
     }
