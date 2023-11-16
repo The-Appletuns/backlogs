@@ -32,6 +32,7 @@ class UserProfile extends Component {
         this.userProfileHeader = this.userProfileHeader.bind(this);
         this.userProfileBody = this.userProfileBody.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.followUser = this.followUser.bind(this);
     }
 
     async componentDidMount() {
@@ -49,10 +50,10 @@ class UserProfile extends Component {
     }
 
     async componentDidUpdate() {
-        console.log('UserProfile componentDidUpdate', this.props.params.userId);
+        // console.log('UserProfile componentDidUpdate', this.props.params.userId);
 
         const userID = this.props.params.userId || localStorage.getItem('mainUserID');
-        console.log('UserID:', userID);
+        // console.log('UserID:', userID);
         await this.fetchUserData(userID);
     }
 
@@ -144,21 +145,25 @@ class UserProfile extends Component {
         // 
 
         const currentProfile = this.props.params.userId;
-        // This is null
         const userFollows = localStorage.getItem("mainUserFollowing");
 
         if (currentProfile != null) {
             if (userFollows.includes(currentProfile)) {
                 // Place "followed" or "unfollow" button here
                 return (
-                    <Button>
+                    <Button
+                        variant='contained'
+                        size='large'>
                         Unfollow
                     </Button>
                 );
             } else {
                 // Place "follow" button here
                 return (
-                    <Button>
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={this.followUser}>
                         Follow
                     </Button>
                 );
@@ -172,14 +177,53 @@ class UserProfile extends Component {
         }
     }
 
-    followUser() {
+    async followUser() {
         //
         // Follow user
         //      Should add user to following list
         //      Should add profile user to follower list
         // 
 
+        let currentUser = localStorage.getItem("mainUserID");
+        let followingUser = this.props.params.userId;
 
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("ERROR Token does not exist");
+            window.location.replace('/login');
+            return;
+        }
+
+        // const dbAccess = 'https://localhost:44414/api/user/follow/' + currentUser;
+        const dbAccess = 'https://localhost:44414/api/user/follow';
+        const authToken = 'Bearer ' + token;
+
+        try {
+
+            const response = await fetch(dbAccess, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                },
+                body: JSON.stringify({
+                    "currentUser": currentUser,
+                    "followingUser": followingUser
+                })
+            })
+
+            console.log(response);
+
+            if (response.ok) {
+                console.log("Follow request finished");
+            } else {
+                console.error("Error putting follow data: ", response.statusText);
+            }
+
+        } catch (error) {
+            console.error("Error putting user data: ", error.message);
+        }
     }
 
     userProfileHeader() {

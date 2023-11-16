@@ -2,6 +2,7 @@ using backlogs.Models;
 using backlogs.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MongoDB.Bson.IO;
 
 namespace backlogs.Controllers;
 
@@ -89,5 +90,34 @@ public class UserController : ControllerBase
         var currentUser = _usersService.GetUserFromEmail(user.Email);
 
         return Ok(new {token, currentUser});
+    }
+
+    [Route("follow")]
+    [HttpPut]
+    public async Task<IActionResult> Follow( string currentUser, string followingUser)
+    {
+        try 
+        {
+            var currentUserData = await _usersService.GetAsync(currentUser);
+            var followingUserData = await _usersService.GetAsync(followingUser);
+
+            if (currentUserData is null || followingUserData is null) 
+            {
+                return NotFound();
+            }
+
+            currentUserData.Following.Add(followingUser);
+            followingUserData.Followers.Add(currentUser);
+
+            await _usersService.UpdateAsync(currentUser, currentUserData);
+            await _usersService.UpdateAsync(followingUser, followingUserData);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error in Follow: {ex.Message}");
+            return StatusCode(500, "Internal Server Error");
+        }
     }
 }
