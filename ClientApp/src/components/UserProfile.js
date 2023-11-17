@@ -161,7 +161,7 @@ class UserProfile extends Component {
             return;
         }
 
-        const dbAccess = 'https://localhost:44414/api/user/follow';
+        const dbAccess = 'http://vgbacklogs.com/api/user/follow';
         const authToken = 'Bearer ' + token;
 
         try {
@@ -212,7 +212,7 @@ class UserProfile extends Component {
             return;
         }
 
-        const dbAccess = 'https://localhost:44414/api/user/unfollow';
+        const dbAccess = 'http://vgbacklogs.com/api/user/unfollow';
         const authToken = 'Bearer ' + token;
 
         try {
