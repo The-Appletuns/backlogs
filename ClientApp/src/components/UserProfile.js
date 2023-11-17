@@ -33,6 +33,7 @@ class UserProfile extends Component {
         this.userProfileBody = this.userProfileBody.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
         this.followUser = this.followUser.bind(this);
+        this.unfollowUser = this.unfollowUser.bind(this);
     }
 
     async componentDidMount() {
@@ -138,45 +139,6 @@ class UserProfile extends Component {
         return arr.length;
     }
 
-    followButtonState() {
-        // 
-        // Checks if user follows this user or not
-        //      Returns appropriate button
-        // 
-
-        const currentProfile = this.props.params.userId;
-        const userFollows = localStorage.getItem("mainUserFollowing");
-
-        if (currentProfile != null) {
-            if (userFollows.includes(currentProfile)) {
-                // Place "followed" or "unfollow" button here
-                return (
-                    <Button
-                        variant='contained'
-                        size='large'>
-                        Unfollow
-                    </Button>
-                );
-            } else {
-                // Place "follow" button here
-                return (
-                    <Button
-                        variant='contained'
-                        size='large'
-                        onClick={this.followUser}>
-                        Follow
-                    </Button>
-                );
-            }
-        } else {
-            return (
-                <Button variant='contained' size='small' onClick={this.signOut}>
-                    Sign Out
-                </Button>
-            );
-        }
-    }
-
     async followUser() {
         //
         // Follow user
@@ -198,7 +160,6 @@ class UserProfile extends Component {
             return;
         }
 
-        // const dbAccess = 'https://localhost:44414/api/user/follow/' + currentUser;
         const dbAccess = 'https://localhost:44414/api/user/follow';
         const authToken = 'Bearer ' + token;
 
@@ -226,6 +187,97 @@ class UserProfile extends Component {
 
         } catch (error) {
             console.error("Error putting user data: ", error.message);
+        }
+    }
+
+    async unfollowUser() {
+        //
+        // Unfollow user
+        //      Should remove user to following list
+        //      Should remove profile user to follower list
+        // 
+
+        let currentUser = localStorage.getItem("mainUserID");
+        let followingUser = this.props.params.userId;
+
+        console.log("Current User:", currentUser);
+        console.log("Following User:", followingUser);
+
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("ERROR Token does not exist");
+            window.location.replace('/login');
+            return;
+        }
+
+        const dbAccess = 'https://localhost:44414/api/user/unfollow';
+        const authToken = 'Bearer ' + token;
+
+        try {
+
+            const response = await fetch(dbAccess, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                },
+                body: JSON.stringify({
+                    "CurrentUserID": currentUser,
+                    "FollowingUserID": followingUser
+                })
+            })
+
+            console.log(response);
+
+            if (response.ok) {
+                console.log("Follow request finished");
+            } else {
+                console.error("Error putting follow data: ", response.statusText);
+            }
+
+        } catch (error) {
+            console.error("Error putting user data: ", error.message);
+        }
+    }
+
+    followButtonState() {
+        // 
+        // Checks if user follows this user or not
+        //      Returns appropriate button
+        // 
+
+        const currentProfile = this.props.params.userId;
+        const userFollows = localStorage.getItem("mainUserFollowing");
+
+        if (currentProfile != null) {
+            if (userFollows.includes(currentProfile)) {
+                // Place "followed" or "unfollow" button here
+                return (
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={this.unfollowUser}>
+                        Unfollow
+                    </Button>
+                );
+            } else {
+                // Place "follow" button here
+                return (
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={this.followUser}>
+                        Follow
+                    </Button>
+                );
+            }
+        } else {
+            return (
+                <Button variant='contained' size='small' onClick={this.signOut}>
+                    Sign Out
+                </Button>
+            );
         }
     }
 
@@ -260,17 +312,18 @@ class UserProfile extends Component {
                         <Typography variant='h5'>Games</Typography>
                     </Box>
 
+                    {/* Number of followers */}
+                    <Box>
+                        <Typography variant='h5'>{this.state.followersCount}</Typography>
+                        <Typography variant='h5'>Followers</Typography>
+                    </Box>
+
                     {/* Number of people following */}
                     <Box>
                         <Typography variant='h5'>{this.state.followingCount}</Typography>
                         <Typography variant='h5'>Following</Typography>
                     </Box>
 
-                    {/* Number of followers */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.followersCount}</Typography>
-                        <Typography variant='h5'>Followers</Typography>
-                    </Box>
                 </Stack>
                 {/* <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button> */}
                 {this.followButtonState()}
