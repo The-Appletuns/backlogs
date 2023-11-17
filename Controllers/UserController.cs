@@ -94,29 +94,54 @@ public class UserController : ControllerBase
 
     [Route("follow")]
     [HttpPut]
-    public async Task<IActionResult> Follow( string currentUser, string followingUser)
+    public async Task<IActionResult> Follow( [FromBody] FollowRequest followRequest )
     {
         try 
         {
-            var currentUserData = await _usersService.GetAsync(currentUser);
-            var followingUserData = await _usersService.GetAsync(followingUser);
+            string currentUserID = followRequest.CurrentUserID;
+            string followingUserID = followRequest.FollowingUserID;
 
-            if (currentUserData is null || followingUserData is null) 
+            Console.WriteLine(currentUserID);
+            Console.WriteLine(followingUserID);
+
+            var currentUser = await _usersService.GetAsync(currentUserID);
+            var followingUser = await _usersService.GetAsync(followingUserID);
+
+            if (currentUser is null || followingUser is null) 
             {
                 return NotFound();
             }
 
-            currentUserData.Following.Add(followingUser);
-            followingUserData.Followers.Add(currentUser);
+            currentUser.Following ??= new List<string?>();
+            currentUser.Followers ??= new List<string?>();
+            currentUser.Games ??= new List<string?>();
 
-            await _usersService.UpdateAsync(currentUser, currentUserData);
-            await _usersService.UpdateAsync(followingUser, followingUserData);
+            followingUser.Following ??= new List<string?>();
+            followingUser.Followers ??= new List<string?>();
+            followingUser.Games ??= new List<string?>();
+
+            currentUser.Following.Add(followingUserID);
+            followingUser.Followers.Add(currentUserID);
+
+            currentUser.Following.RemoveAll(string.IsNullOrEmpty);
+            currentUser.Followers.RemoveAll(string.IsNullOrEmpty);
+            currentUser.Games.RemoveAll(string.IsNullOrEmpty);
+
+            followingUser.Following.RemoveAll(string.IsNullOrEmpty);
+            followingUser.Followers.RemoveAll(string.IsNullOrEmpty);
+            followingUser.Games.RemoveAll(string.IsNullOrEmpty);
+
+            await _usersService.UpdateAsync(currentUserID, currentUser);
+            await _usersService.UpdateAsync(followingUserID, followingUser);
 
             return NoContent();
         }
         catch (Exception ex)
         {
             Console.Error.WriteLine($"Error in Follow: {ex.Message}");
+            Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
+            Console.Error.WriteLine($"CurrentID: {followRequest.CurrentUserID}");
+            Console.Error.WriteLine($"FollowerID: {followRequest.FollowingUserID}");
             return StatusCode(500, "Internal Server Error");
         }
     }

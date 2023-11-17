@@ -187,6 +187,9 @@ class UserProfile extends Component {
         let currentUser = localStorage.getItem("mainUserID");
         let followingUser = this.props.params.userId;
 
+        console.log("Current User:", currentUser);
+        console.log("Following User:", followingUser);
+
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -208,8 +211,8 @@ class UserProfile extends Component {
                     'Authorization': authToken
                 },
                 body: JSON.stringify({
-                    "currentUser": currentUser,
-                    "followingUser": followingUser
+                    "CurrentUserID": currentUser,
+                    "FollowingUserID": followingUser
                 })
             })
 
