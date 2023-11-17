@@ -55,11 +55,9 @@ export class LogIn extends Component {
 
                 const token = data.token;
                 const userID = data.currentUser.id;
-                const userFollowing = data.currentUser.following;
 
                 localStorage.setItem('token', token);
                 localStorage.setItem('mainUserID', userID);
-                localStorage.setItem('mainUserFollowing', userFollowing);
 
                 // Need some way to redirect to profile after logging in
                 // Temp fix i think this is wrong

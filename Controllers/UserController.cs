@@ -155,8 +155,8 @@ public class UserController : ControllerBase
             string currentUserID = followRequest.CurrentUserID;
             string followingUserID = followRequest.FollowingUserID;
 
-            Console.WriteLine(currentUserID);
-            Console.WriteLine(followingUserID);
+            // Console.WriteLine(currentUserID);
+            // Console.WriteLine(followingUserID);
 
             var currentUser = await _usersService.GetAsync(currentUserID);
             var followingUser = await _usersService.GetAsync(followingUserID);

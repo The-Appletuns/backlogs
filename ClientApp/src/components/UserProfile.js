@@ -34,6 +34,7 @@ class UserProfile extends Component {
         this.componentDidMount = this.componentDidMount.bind(this);
         this.followUser = this.followUser.bind(this);
         this.unfollowUser = this.unfollowUser.bind(this);
+        this.followButtonState = this.followButtonState.bind(this);
     }
 
     async componentDidMount() {
@@ -248,10 +249,10 @@ class UserProfile extends Component {
         // 
 
         const currentProfile = this.props.params.userId;
-        const userFollows = localStorage.getItem("mainUserFollowing");
+        const userFollows = localStorage.getItem("mainUserID");
 
         if (currentProfile != null) {
-            if (userFollows.includes(currentProfile)) {
+            if (this.state.followers.includes(userFollows)) {
                 // Place "followed" or "unfollow" button here
                 return (
                     <Button
