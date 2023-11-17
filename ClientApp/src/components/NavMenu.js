@@ -22,6 +22,25 @@ export class NavMenu extends Component {
     });
   }
 
+  userLoggedIn() {
+    // Checks if user is logged in, if logged in, return Profile link, else return login link
+    const token = localStorage.getItem('token');
+
+    if (token != null) {
+      return (
+        <NavItem>
+          <NavLink tag={Link} className="text-dark" to="/profile"><PersonIcon/></NavLink>
+        </NavItem>
+      );
+    } else {
+      return (
+        <NavItem>
+          <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
+        </NavItem>
+      )
+    }
+  }
+
   render() {
     return (
       <header>
@@ -36,21 +55,13 @@ export class NavMenu extends Component {
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/search-game">Search Game</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/profile"><PersonIcon/></NavLink>
-              </NavItem>
               {/* <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/counter">Counter</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/fetch-data">Fetch data</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/testing">Testing</NavLink>
+                <NavLink tag={Link} className="text-dark" to="/login">Login</NavLink>
               </NavItem> */}
+              {/* <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/profile"><PersonIcon/></NavLink>
+              </NavItem> */}
+              {this.userLoggedIn()}
             </ul>
           </Collapse>
         </Navbar>

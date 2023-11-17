@@ -79,4 +79,11 @@ public class UsersService
         return user;
     }
 
+    public User? GetUserFromUsername(string username)
+    {
+        var user = this._usersCollection.Find(x => x.Username == username).FirstOrDefault();
+
+        return user;
+    }
+
 }

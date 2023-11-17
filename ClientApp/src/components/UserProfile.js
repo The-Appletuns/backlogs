@@ -25,15 +25,25 @@ class UserProfile extends Component {
             followingCount: 0,
             games: [],
             gamesCount: 0,
+            userType: null
         }
 
         this.signOut = this.signOut.bind(this);
         this.userProfileHeader = this.userProfileHeader.bind(this);
         this.userProfileBody = this.userProfileBody.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.followUser = this.followUser.bind(this);
+        this.unfollowUser = this.unfollowUser.bind(this);
+        this.followButtonState = this.followButtonState.bind(this);
     }
 
     async componentDidMount() {
+        // 
+        // Once backend connected, checks if there is a /profile/{userid} or /profile link
+        //      if with userid then go to that user profile specifically
+        //      else go to the current user whos logged in
+        // 
+
         console.log('UserProfile componentDidMount', this.props.params.userId);
 
         const userID = this.props.params.userId || localStorage.getItem('mainUserID');
@@ -41,7 +51,19 @@ class UserProfile extends Component {
         await this.fetchUserData(userID);
     }
 
+    async componentDidUpdate() {
+        // console.log('UserProfile componentDidUpdate', this.props.params.userId);
+
+        const userID = this.props.params.userId || localStorage.getItem('mainUserID');
+        // console.log('UserID:', userID);
+        await this.fetchUserData(userID);
+    }
+
     async fetchUserData(userID) {
+        // 
+        // Gets user information
+        // 
+
         const token = localStorage.getItem('token');
 
         if (!token) {
@@ -84,7 +106,9 @@ class UserProfile extends Component {
     }
 
     signOut() {
-        // Logout and reset state
+        // 
+        // Logout and reset state + delete token
+        // 
 
         console.log("Signing out");
         localStorage.clear();
@@ -103,6 +127,10 @@ class UserProfile extends Component {
     }
 
     checkArrayEmpty(arr) {
+        // 
+        // Checks if the array is empty to make sure to give a value of 0
+        // 
+
         if (arr.length === 1) {
             if (arr[0] === "") {
                 return 0;
@@ -110,6 +138,148 @@ class UserProfile extends Component {
         }
 
         return arr.length;
+    }
+
+    async followUser() {
+        //
+        // Follow user
+        //      Should add user to following list
+        //      Should add profile user to follower list
+        // 
+
+        let currentUser = localStorage.getItem("mainUserID");
+        let followingUser = this.props.params.userId;
+
+        console.log("Current User:", currentUser);
+        console.log("Following User:", followingUser);
+
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("ERROR Token does not exist");
+            window.location.replace('/login');
+            return;
+        }
+
+        const dbAccess = 'https://localhost:44414/api/user/follow';
+        const authToken = 'Bearer ' + token;
+
+        try {
+
+            const response = await fetch(dbAccess, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                },
+                body: JSON.stringify({
+                    "CurrentUserID": currentUser,
+                    "FollowingUserID": followingUser
+                })
+            })
+
+            console.log(response);
+
+            if (response.ok) {
+                console.log("Follow request finished");
+            } else {
+                console.error("Error putting follow data: ", response.statusText);
+            }
+
+        } catch (error) {
+            console.error("Error putting user data: ", error.message);
+        }
+    }
+
+    async unfollowUser() {
+        //
+        // Unfollow user
+        //      Should remove user to following list
+        //      Should remove profile user to follower list
+        // 
+
+        let currentUser = localStorage.getItem("mainUserID");
+        let followingUser = this.props.params.userId;
+
+        console.log("Current User:", currentUser);
+        console.log("Following User:", followingUser);
+
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("ERROR Token does not exist");
+            window.location.replace('/login');
+            return;
+        }
+
+        const dbAccess = 'https://localhost:44414/api/user/unfollow';
+        const authToken = 'Bearer ' + token;
+
+        try {
+
+            const response = await fetch(dbAccess, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                },
+                body: JSON.stringify({
+                    "CurrentUserID": currentUser,
+                    "FollowingUserID": followingUser
+                })
+            })
+
+            console.log(response);
+
+            if (response.ok) {
+                console.log("Follow request finished");
+            } else {
+                console.error("Error putting follow data: ", response.statusText);
+            }
+
+        } catch (error) {
+            console.error("Error putting user data: ", error.message);
+        }
+    }
+
+    followButtonState() {
+        // 
+        // Checks if user follows this user or not
+        //      Returns appropriate button
+        // 
+
+        const currentProfile = this.props.params.userId;
+        const userFollows = localStorage.getItem("mainUserID");
+
+        if (currentProfile != null) {
+            if (this.state.followers.includes(userFollows)) {
+                // Place "followed" or "unfollow" button here
+                return (
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={this.unfollowUser}>
+                        Unfollow
+                    </Button>
+                );
+            } else {
+                // Place "follow" button here
+                return (
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={this.followUser}>
+                        Follow
+                    </Button>
+                );
+            }
+        } else {
+            return (
+                <Button variant='contained' size='small' onClick={this.signOut}>
+                    Sign Out
+                </Button>
+            );
+        }
     }
 
     userProfileHeader() {
@@ -129,7 +299,7 @@ class UserProfile extends Component {
                     <Typography variant='h2'>{this.state.username}</Typography>
 
                     {/* Button would either be Follow, Following, Edit Profile */}
-                    <Button variant='contained' size='large'>Follow</Button>
+                    {/* <Button variant='contained' size='large'>Follow</Button> */}
                 </Stack>
                 <Stack 
                     direction="row"
@@ -143,19 +313,21 @@ class UserProfile extends Component {
                         <Typography variant='h5'>Games</Typography>
                     </Box>
 
+                    {/* Number of followers */}
+                    <Box>
+                        <Typography variant='h5'>{this.state.followersCount}</Typography>
+                        <Typography variant='h5'>Followers</Typography>
+                    </Box>
+
                     {/* Number of people following */}
                     <Box>
                         <Typography variant='h5'>{this.state.followingCount}</Typography>
                         <Typography variant='h5'>Following</Typography>
                     </Box>
 
-                    {/* Number of followers */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.followersCount}</Typography>
-                        <Typography variant='h5'>Followers</Typography>
-                    </Box>
                 </Stack>
-                <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button>
+                {/* <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button> */}
+                {this.followButtonState()}
             </Stack>
         )
     }

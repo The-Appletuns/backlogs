@@ -1,15 +1,15 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-// Game display
-export default function gameDisplay() {
+// User list display
+export default function userListDisplay() {
     return(
         <Box>
             <Image>
                 {/* Image here */}
             </Image>
             <Typography>
-                {/* Game title here */}
+                {/* Username here */}
             </Typography>
         </Box>
     )
