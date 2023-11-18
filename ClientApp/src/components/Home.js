@@ -15,6 +15,7 @@ import InfoIcon from '@mui/icons-material/Info';
 import ListSubheader from '@mui/material/ListSubheader';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import GameDisplay from '../windows/GameDisplay';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -101,27 +102,8 @@ export class Home extends Component {
       <ImageList cols={5} rowHeight={400}>
         {trendGameData.map((item) => { 
           return (
-            <ImageListItem key={item.background_image}>
-            <img
-              srcSet={`${item.background_image}?w=248&fit=crop&auto=format&dpr=2 2x`}
-              src={`${item.background_image}?w=248&fit=crop&auto=format`}
-              alt={item.name}
-              loading="lazy"
-            />
-
-            <ImageListItemBar
-              title={item.name}
-              subtitle={item.genres[0].name}
-              actionIcon={
-                <IconButton
-                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                  aria-label={`info about ${item.name}`}>
-
-                </IconButton>
-              }
-            />
-          </ImageListItem>
-      )})}
+            <GameDisplay game={item}/>
+          )})}
     </ImageList>
     )
   }
