@@ -79,10 +79,9 @@ export class LogIn extends Component {
 
         return (
             <Box>
-                <Typography variant='h3'>
-                    Login to BackLogs
+                <Typography variant='h3' sx={{m: 2}}>
+                    Login to VG BackLogs
                 </Typography>
-
                 <FormControl>
                     <TextField
                         required
@@ -90,20 +89,23 @@ export class LogIn extends Component {
                         variant='outlined'
                         value={this.state.email}
                         onChange={(event) => this.setState({email: event.target.value})}
+                        sx={{m: 2}}
                     ></TextField>
+                    <br></br>
                     <TextField
                         required
                         label='Password'
                         variant='outlined'
                         value={this.state.password}
                         onChange={(event) => this.setState({password: event.target.value})}
+                        sx={{m: 2}}
                     ></TextField>
+
+                    <Button variant='contained' onClick={this.loginPressed} sx={{m: 2}}>Login</Button>
                 </FormControl>
 
-                <Button variant='contained' onClick={this.loginPressed}>Login</Button>
-
-                <Typography variant='h5'>Create an account</Typography>
-                <Button component={Link} to="/signup" variant='outlined'>Sign Up</Button>
+                <Typography variant='h6' sx={{m: 2}}>Don't have an account? Sign-up for VG BackLogs!</Typography>
+                <Button component={Link} to="/signup" variant='outlined' sx={{m: 2, width: 200}}>Sign Up</Button>
             </Box>
         )
     }
