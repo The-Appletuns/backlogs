@@ -12,8 +12,12 @@ export class SearchGame extends Component {
         super(props);
 
         this.state = {
-
+            gameGenres: null,
+            platforms: null,
         }
+
+        this.fetchGenres = this.fetchGenres.bind(this);
+        this.fetchPlatforms = this.fetchPlatforms.bind(this);
     }
 
     async componentDidMount() {
@@ -21,7 +25,8 @@ export class SearchGame extends Component {
         // Connected to backend check
         // 
 
-
+        this.fetchGenres();
+        this.fetchPlatforms();
     }
 
     async componentDidUpdate() {
@@ -32,12 +37,132 @@ export class SearchGame extends Component {
 
     }
 
-    async fetchGameData() {
+    async fetchGenres() {
         // 
-        // Gets game data
+        // Gets game genre list
         // 
 
-        
+        const dbGenreAccess = 'https://api.rawg.io/api/genres?key=98a8b7c3c0ff460bbe11e7b0ca7a2375'
+
+        try {
+            const response = await fetch(dbGenreAccess, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(response);
+
+            if (response.ok) {
+                const data = await response.json();
+                this.setState({
+                    gameGenres: data.results
+                });
+
+                console.log("Game Genres:", data.results);
+            } else {
+                console.error("Response ok but error fetching genre data: ", response.statusText);
+            }
+        } catch(error) {
+            console.error("Error fetching recent genre data: ", error.message);
+        }
+    }
+
+    async fetchPlatforms() {
+        // 
+        // Gets platforms list
+        // 
+
+        const dbPlatformAccess = 'https://api.rawg.io/api/platforms?key=98a8b7c3c0ff460bbe11e7b0ca7a2375'
+
+        try {
+            const response = await fetch(dbPlatformAccess, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            console.log(response);
+
+            if (response.ok) {
+                const data = await response.json();
+                this.setState({
+                    platforms: data.results
+                });
+
+                console.log("Game platforms:", data.results);
+            } else {
+                console.error("Response ok but error fetching genre data: ", response.statusText);
+            }
+        } catch(error) {
+            console.error("Error fetching recent genre data: ", error.message);
+        }
+    }
+
+    genreSelectForm(genreList) {
+
+        if (genreList == null) {
+            return (
+                <Box>
+                    Loading Genres
+                </Box>
+            )
+        }
+
+        return(
+            <FormControl>
+                <InputLabel id="genre-select-label">Genre</InputLabel>  
+                <Select
+                    labelId="genre-select-label"
+                    sx={{
+                        marginLeft: 19,
+                        marginTop: 5,
+                        width: 250,
+                        height: 50,
+                    }}                
+                >
+                    {genreList.map((genre) => {
+                        return (
+                            <MenuItem value={genre.id}>{genre.name}</MenuItem>
+                        )
+                    })}
+                </Select>
+            </FormControl>
+        )
+    }
+
+    platformSelectForm(platformList) {
+
+        if (platformList == null) {
+            return (
+                <Box>
+                    Loading Genres
+                </Box>
+            )
+        }
+
+        return(
+            <FormControl>
+                <InputLabel id="platform-select-label">Platform</InputLabel>  
+                <Select
+                    labelId="platform-select-label"
+                    sx={{
+                        marginLeft: 19,
+                        marginTop: 5,
+                        width: 250,
+                        height: 50,
+                    }}                
+                >
+                    {platformList.map((platform) => {
+                        return (
+                            <MenuItem value={platform.id}>{platform.name}</MenuItem>
+                        )
+                    })}
+                </Select>
+            </FormControl>
+        )
     }
     
     render() {
@@ -74,27 +199,11 @@ export class SearchGame extends Component {
                 }}
             />
             {/* First Select */}
-            <FormControl >
-                <InputLabel id="genre-select-label">Genre</InputLabel>  
-                <Select
-                    labelId="genre-select-label"
-                    sx={{
-                        marginLeft: 19,
-                        marginTop: 5,
-                        width: 250,
-                        height: 50,
-                    }}                
-                >
-                    <MenuItem value={1}>Action</MenuItem>
-                    <MenuItem value={2}>Puzzle</MenuItem>
-                    <MenuItem value={3}>Role-Playing</MenuItem>
-                    <MenuItem value={4}>Simulatiom</MenuItem>
-                    <MenuItem value={5}>Yellow</MenuItem>
-                </Select>
-            </FormControl>
+            {this.genreSelectForm(this.state.gameGenres)}
 
             {/* Second Select */}
-            <FormControl>
+            {this.platformSelectForm(this.state.platforms)}
+            {/* <FormControl>
                 <InputLabel id="platform-select-label">Platform</InputLabel> 
                 <Select
                     labelId="platform-select-label"
@@ -109,10 +218,10 @@ export class SearchGame extends Component {
                     <MenuItem value={2}>Xbox</MenuItem>
                     <MenuItem value={3}>PC</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl> */}
 
             {/* Third Select */}
-            <FormControl>
+            {/* <FormControl>
                 <InputLabel id="rating-select-label">Rating</InputLabel>
                 <Select
                     labelId="rating-select-label"
@@ -129,9 +238,9 @@ export class SearchGame extends Component {
                     <MenuItem value={4}>2 Stars</MenuItem>
                     <MenuItem value={5}>1 Star</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl> */}
 
-            <FormControl>
+            {/* <FormControl>
                 <InputLabel id="setting-select-label">Setting</InputLabel>
                 <Select
                     labelId="setting-select-label"
@@ -146,9 +255,9 @@ export class SearchGame extends Component {
                     <MenuItem value={2}>Post-apocalyptic</MenuItem>
                     <MenuItem value={3}>Sci-fi</MenuItem>
                 </Select>
-            </FormControl>
+            </FormControl> */}
 
-            <FormControl>
+            {/* <FormControl>
                 <InputLabel id="date-select-label">Release Date</InputLabel>
                 <Select
                     labelId="date-select-label"
@@ -165,7 +274,7 @@ export class SearchGame extends Component {
                     <MenuItem value={3}>2023</MenuItem>
 
                 </Select>
-            </FormControl>
+            </FormControl> */}
             </>
 
             
