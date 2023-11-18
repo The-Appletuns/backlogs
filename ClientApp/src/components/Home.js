@@ -27,34 +27,110 @@ const Item = styled(Paper)(({ theme }) => ({
 export class Home extends Component {
   static displayName = Home.name;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      trendingGames: null
+    }
+
+    this.fetchTrendingGameData = this.fetchTrendingGameData.bind(this);
+    this.attachGameData = this.attachGameData.bind(this);
+  }
+
+  async componentDidMount() {
+    // 
+    // Backend mounted
+    // 
+
+    this.fetchTrendingGameData();
+
+  }
+
+  async componentDidUpdate() {
+    // 
+    // If backend updated
+    // 
+
+  }
+
+  async fetchTrendingGameData() {
+    // 
+    // Gets trending game data
+    // 
+    console.log("Component Mounted");
+    
+    const dbGamesAccess = 'https://api.rawg.io/api/games?key=98a8b7c3c0ff460bbe11e7b0ca7a2375&page_size=5'
+
+    try {
+      const response = await fetch (dbGamesAccess, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        this.setState({
+          trendingGames: data.results
+        });
+
+        console.log(data.results);
+      } else {
+        console.error("Response ok but error fetching recent game data: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching recent game data: ", error.message);
+    }
+
+    console.log("finished fetching");
+  }
+
+  attachGameData(trendGameData) {
+
+    if (trendGameData == null) {
+      return (
+        <Box>
+          Loading Data
+        </Box>
+      )
+    }
+
+    return(
+      <ImageList cols={5} rowHeight={400}>
+        {trendGameData.map((item) => { 
+          return (
+            <ImageListItem key={item.background_image}>
+            <img
+              srcSet={`${item.background_image}?w=248&fit=crop&auto=format&dpr=2 2x`}
+              src={`${item.background_image}?w=248&fit=crop&auto=format`}
+              alt={item.name}
+              loading="lazy"
+            />
+
+            <ImageListItemBar
+              title={item.name}
+              subtitle={item.genres[0].name}
+              actionIcon={
+                <IconButton
+                  sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
+                  aria-label={`info about ${item.name}`}>
+
+                </IconButton>
+              }
+            />
+          </ImageListItem>
+      )})}
+    </ImageList>
+    )
+  }
+
   render() {
     return (
       <Box>
-        <h1>Trending Games</h1>
-        <ImageList cols={5} rowHeight={400}>
-          {itemData.map((item) => (
-            <ImageListItem key={item.img}>
-              <img
-                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                src={`${item.img}?w=248&fit=crop&auto=format`}
-                alt={item.title}
-                loading="lazy"
-              />
-              <ImageListItemBar
-                title={item.title}
-                subtitle={item.author}
-                actionIcon={
-                  <IconButton
-                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    aria-label={`info about ${item.title}`}
-                  >
-                    {/* <InfoIcon /> */}
-                  </IconButton>
-                }
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
+        <h1>Popular Games</h1>
+        {this.attachGameData(this.state.trendingGames)}
 
         <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>

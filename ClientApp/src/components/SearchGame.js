@@ -7,6 +7,38 @@ const games = ["Baldur's Gate III", "Persona 5: Royal", "Animal Crossing: New Le
 
 export class SearchGame extends Component {
     static displayName = SearchGame.name;
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        }
+    }
+
+    async componentDidMount() {
+        // 
+        // Connected to backend check
+        // 
+
+
+    }
+
+    async componentDidUpdate() {
+        // 
+        // If backend updated
+        // 
+
+
+    }
+
+    async fetchGameData() {
+        // 
+        // Gets game data
+        // 
+
+        
+    }
     
     render() {
         return (
