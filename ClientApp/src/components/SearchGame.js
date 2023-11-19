@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
-import {Box, Button, TextField, Autocomplete, Grid, Typography, MenuItem, Select, InputLabel, FormControl, FormLabel, StepLabel} from '@mui/material';
+import {Box, Button, TextField, MenuItem, Select, InputLabel, FormControl} from '@mui/material';
 import GameDisplayLayout from '../windows/GameDisplayLayout';
-
-const games = ["Baldur's Gate III", "Persona 5: Royal", "Animal Crossing: New Leaf", "The Sims 4"];
 
 export class SearchGame extends Component {
     static displayName = SearchGame.name;
@@ -24,6 +20,7 @@ export class SearchGame extends Component {
         this.fetchGenres = this.fetchGenres.bind(this);
         this.fetchPlatforms = this.fetchPlatforms.bind(this);
         this.searchClicked = this.searchClicked.bind(this);
+        this.searchResults = this.searchResults.bind(this);
     }
 
     async componentDidMount() {

@@ -41,7 +41,6 @@ public class User
     public List<string?>? Following { get; set; } = null!;
 
     [BsonElement("games")]
-    [BsonRepresentation(BsonType.ObjectId)]
     [JsonPropertyName("games")]
     public List<string?>? Games { get; set; } = null!;
 }

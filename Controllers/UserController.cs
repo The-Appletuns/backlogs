@@ -125,11 +125,9 @@ public class UserController : ControllerBase
 
             currentUser.Following.RemoveAll(string.IsNullOrEmpty);
             currentUser.Followers.RemoveAll(string.IsNullOrEmpty);
-            currentUser.Games.RemoveAll(string.IsNullOrEmpty);
 
             followingUser.Following.RemoveAll(string.IsNullOrEmpty);
             followingUser.Followers.RemoveAll(string.IsNullOrEmpty);
-            followingUser.Games.RemoveAll(string.IsNullOrEmpty);
 
             await _usersService.UpdateAsync(currentUserID, currentUser);
             await _usersService.UpdateAsync(followingUserID, followingUser);
@@ -179,11 +177,9 @@ public class UserController : ControllerBase
 
             currentUser.Following.RemoveAll(string.IsNullOrEmpty);
             currentUser.Followers.RemoveAll(string.IsNullOrEmpty);
-            currentUser.Games.RemoveAll(string.IsNullOrEmpty);
 
             followingUser.Following.RemoveAll(string.IsNullOrEmpty);
             followingUser.Followers.RemoveAll(string.IsNullOrEmpty);
-            followingUser.Games.RemoveAll(string.IsNullOrEmpty);
 
             await _usersService.UpdateAsync(currentUserID, currentUser);
             await _usersService.UpdateAsync(followingUserID, followingUser);
@@ -196,6 +192,90 @@ public class UserController : ControllerBase
             Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
             Console.Error.WriteLine($"CurrentID: {followRequest.CurrentUserID}");
             Console.Error.WriteLine($"FollowerID: {followRequest.FollowingUserID}");
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    [Route("addgame")]
+    [HttpPut]
+    public async Task<IActionResult> AddGame( [FromBody] GameRequest gameRequest )
+    {
+        try 
+        {
+            string currentUserID = gameRequest.CurrentUserID;
+            string gameData = gameRequest.GameData;
+
+            // Console.WriteLine(currentUserID);
+            // Console.WriteLine(gameData);
+
+            var currentUser = await _usersService.GetAsync(currentUserID);
+
+            if (currentUser is null) 
+            {
+                return NotFound();
+            }
+
+            currentUser.Following ??= new List<string?>();
+            currentUser.Followers ??= new List<string?>();
+            currentUser.Games ??= new List<string?>();
+
+            currentUser.Games.Add(gameData);
+
+            currentUser.Following.RemoveAll(string.IsNullOrEmpty);
+            currentUser.Followers.RemoveAll(string.IsNullOrEmpty);
+
+            await _usersService.UpdateAsync(currentUserID, currentUser);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error in Follow: {ex.Message}");
+            Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
+            Console.Error.WriteLine($"CurrentID: {gameRequest.CurrentUserID}");
+            Console.Error.WriteLine($"GameID: {gameRequest.GameData}");
+            return StatusCode(500, "Internal Server Error");
+        }
+    }
+
+    [Route("removegame")]
+    [HttpPut]
+    public async Task<IActionResult> RemoveGame( [FromBody] GameRequest gameRequest )
+    {
+        try 
+        {
+            string currentUserID = gameRequest.CurrentUserID;
+            string gameData = gameRequest.GameData;
+
+            // Console.WriteLine(currentUserID);
+            // Console.WriteLine(followingUserID);
+
+            var currentUser = await _usersService.GetAsync(currentUserID);
+
+            if (currentUser is null) 
+            {
+                return NotFound();
+            }
+
+            currentUser.Following ??= new List<string?>();
+            currentUser.Followers ??= new List<string?>();
+            currentUser.Games ??= new List<string?>();
+
+            currentUser.Games.Remove(gameData);
+
+            currentUser.Following.RemoveAll(string.IsNullOrEmpty);
+            currentUser.Followers.RemoveAll(string.IsNullOrEmpty);
+
+            await _usersService.UpdateAsync(currentUserID, currentUser);
+
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            Console.Error.WriteLine($"Error in Follow: {ex.Message}");
+            Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
+            Console.Error.WriteLine($"CurrentID: {gameRequest.CurrentUserID}");
+            Console.Error.WriteLine($"GameID: {gameRequest.GameData}");
             return StatusCode(500, "Internal Server Error");
         }
     }
