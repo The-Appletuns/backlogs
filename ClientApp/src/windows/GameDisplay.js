@@ -63,7 +63,7 @@ async function ownedGame(gameID, gameName, gameBackground) {
     }
 
     const userID = localStorage.getItem('mainUserID');
-    const dbAccess = 'https://localhost:44414/api/user/' + userID;
+    const dbAccess = 'http://vgbacklogs.com/api/user/' + userID;
     const authToken = 'Bearer ' + token;
 
     const gameData = JSON.stringify({
@@ -102,7 +102,7 @@ async function addGame(gameID, gameName, gameBackground) {
     }
 
     const userID = localStorage.getItem('mainUserID');
-    const dbAccess = 'https://localhost:44414/api/user/addgame';
+    const dbAccess = 'http://vgbacklogs.com/api/user/addgame';
     const authToken = 'Bearer ' + token;
 
     const gameData = JSON.stringify({
@@ -156,7 +156,7 @@ async function removeGame(gameID, gameName, gameBackground) {
     }
 
     const userID = localStorage.getItem('mainUserID');
-    const dbAccess = 'https://localhost:44414/api/user/removegame';
+    const dbAccess = 'http://vgbacklogs.com/api/user/removegame';
     const authToken = 'Bearer ' + token;
 
     const gameData = JSON.stringify({
