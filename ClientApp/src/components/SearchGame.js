@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import {Box, Button, TextField, Autocomplete, Grid, Typography, MenuItem, Select, InputLabel, FormControl, FormLabel, StepLabel} from '@mui/material';
+import GameDisplayLayout from '../windows/GameDisplayLayout';
 
 const games = ["Baldur's Gate III", "Persona 5: Royal", "Animal Crossing: New Leaf", "The Sims 4"];
 
@@ -247,34 +248,51 @@ export class SearchGame extends Component {
             </FormControl>
         )
     }
+
+    searchResults(gameSearchResults) {
+        if (gameSearchResults == null) {
+            return(
+                <Box>
+                    Games not found
+                </Box>
+            )
+        }
+
+        return (
+            <GameDisplayLayout gameList={gameSearchResults} rowHeight={400} column={5}/>
+        )
+    }
     
     render() {
         return (
-
             <Box>
-                <Box
-                    display="flex"
-                    alignItems="center"
-                    justifyContent="center"
-                    marginBottom={4}
-                >
-                    <h1>Search Game</h1>
+                <Box>
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        marginBottom={4}>
+                        <h1>Search Game</h1>
+                    </Box>
+
+                    {/* Search Title */}
+                    {this.gameTitleSearch()}
+
+                    {/* First Select */}
+                    {this.genreSelectForm(this.state.gameGenres)}
+
+                    {/* Second Select */}
+                    {this.platformSelectForm(this.state.platforms)}
+
+                    <Button
+                        variant='contained'
+                        onClick={this.searchClicked}>
+                        Search
+                    </Button>
                 </Box>
-
-                {/* Search Title */}
-                {this.gameTitleSearch()}
-
-                {/* First Select */}
-                {this.genreSelectForm(this.state.gameGenres)}
-
-                {/* Second Select */}
-                {this.platformSelectForm(this.state.platforms)}
-
-                <Button
-                    variant='contained'
-                    onClick={this.searchClicked}>
-                    Search
-                </Button>
+                <Box>
+                    {this.searchResults(this.state.results)}
+                </Box>
             </Box>
         );
         

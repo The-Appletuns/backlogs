@@ -15,7 +15,7 @@ export default function GameDisplay({game}) {
             
             <ImageListItemBar
                 title={game.name}
-                subtitle={game.genres[0].name}
+                // subtitle={game.genres[0].name}
                 actionIcon={
                     <IconButton 
                         sx={{ color: 'rgba(255, 255, 255, 0.75)'}}

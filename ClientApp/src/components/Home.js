@@ -16,6 +16,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import GameDisplay from '../windows/GameDisplay';
+import GameDisplayLayout from '../windows/GameDisplayLayout';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -99,12 +100,7 @@ export class Home extends Component {
     }
 
     return(
-      <ImageList cols={5} rowHeight={400}>
-        {trendGameData.map((item) => { 
-          return (
-            <GameDisplay game={item}/>
-          )})}
-    </ImageList>
+      <GameDisplayLayout gameList={trendGameData} rowHeight={400} column={5}/>
     )
   }
 
