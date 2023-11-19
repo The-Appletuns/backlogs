@@ -33,7 +33,7 @@ export class SearchUser extends Component {
             return;
         }
         console.log(this.state.searchTerm.toLowerCase());
-        const dbAccess = 'https://localhost:44414/api/user/' + this.state.searchTerm.toLowerCase();
+        const dbAccess = 'http://vgbacklogs.com/api/user/' + this.state.searchTerm.toLowerCase();
         // const authToken = 'Bearer ' + token;
 
         try {
