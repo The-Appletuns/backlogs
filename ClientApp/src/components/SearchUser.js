@@ -4,8 +4,8 @@ import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import { Box, Button, TextField, Autocomplete, Grid, Typography, MenuItem, Select, InputLabel, FormControl, FormLabel, StepLabel, IconButton } from '@mui/material';
 
-export class SearchGame extends Component {
-    static displayName = SearchGame.name;
+export class SearchUser extends Component {
+    static displayName = SearchUser.name;
 
     constructor(props) {
         super(props);
@@ -97,9 +97,9 @@ export class SearchGame extends Component {
     render() {
         return(
             <Box textAlign="center" marginTop={2}>
-                 <h1>Search</h1>
+                 <h1>Search User</h1>
                  <TextField
-                    label="Search games and users"
+                    label="Search users"
                     variant="outlined"
                     onChange={this.handleSearchChange}
                     fullWidth
