@@ -21,6 +21,7 @@ export class SearchGame extends Component {
 
         this.fetchGenres = this.fetchGenres.bind(this);
         this.fetchPlatforms = this.fetchPlatforms.bind(this);
+        this.searchClicked = this.searchClicked.bind(this);
     }
 
     async componentDidMount() {
@@ -154,6 +155,7 @@ export class SearchGame extends Component {
                         width: 250,
                         height: 50,
                     }}
+                    value={this.state.searchGenre}
                     onChange={(event) => this.setState({
                         searchGenre: event.target.value
                         })}
@@ -189,6 +191,7 @@ export class SearchGame extends Component {
                         width: 250,
                         height: 50,
                     }}
+                    value={this.state.searchPlatform}
                     onChange={(event) => this.setState({
                         searchPlatform: event.target.value
                         })}
@@ -227,7 +230,7 @@ export class SearchGame extends Component {
 
                 <Button
                     variant='contained'
-                    onClick={this.searchClicked()}>
+                    onClick={this.searchClicked}>
                     Search
                 </Button>
             </Box>
