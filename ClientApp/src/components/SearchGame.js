@@ -17,6 +17,7 @@ export class SearchGame extends Component {
             searchTitle: null,
             searchGenre: null,
             searchPlatform: null,
+            results: null,
         }
 
         this.fetchGenres = this.fetchGenres.bind(this);
@@ -105,7 +106,7 @@ export class SearchGame extends Component {
         }
     }
 
-    searchClicked() {
+    async searchClicked() {
         // 
         // Search button clicked and sends to backend to try and find data
         // 
@@ -116,6 +117,47 @@ export class SearchGame extends Component {
         console.log(this.state.searchPlatform);
 
         // Send this data to backend and get a result
+
+        let gameDBAccess = 'https://api.rawg.io/api/games?key=98a8b7c3c0ff460bbe11e7b0ca7a2375';
+
+        if (this.state.searchTitle != null) {
+            const searchTitle = '&search=' + this.state.searchTitle;
+            gameDBAccess += searchTitle;
+        }
+
+        if (this.state.searchGenre != null) {
+            const searchGenre = '&genres=' + this.state.searchGenre;
+            gameDBAccess += searchGenre;
+        }
+
+        if (this.state.searchPlatform != null) {
+            const searchPlatform = '&platforms=' + this.state.searchPlatform;
+            gameDBAccess += searchPlatform;
+        }
+
+        try {
+            const response = await fetch (gameDBAccess, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                this.setState({
+                    results: data.results
+                });
+
+                console.log(data.results);
+            } else {
+                console.error("Response ok but error fetching search game data", response.statusText);
+            }
+        } catch (error) {
+            console.error("Error fetch search game data:", error.message);
+        }
+
+        console.log("Finished fetching");
     }
 
     gameTitleSearch() {
