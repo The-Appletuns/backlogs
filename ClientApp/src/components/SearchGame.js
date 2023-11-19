@@ -11,18 +11,19 @@ export class SearchGame extends Component {
         super(props);
 
         this.state = {
-            user: '',
-            searchTerm: ''
+            user: "",
+            searchTerm: "",
+            searchUserId: ""
         }
 
         this.fetchUserData = this.fetchUserData.bind(this);
         this.searchtext = this.searchtext.bind(this);
+        this.searchLogic = this.searchLogic.bind(this);
         this.handleSearchChange = this.handleSearchChange.bind(this);
     }
 
     async componentDidMount(){
         console.log("Component Mounted");
-        // await this.fetchUserData();
     }
 
     async fetchUserData() {
@@ -33,8 +34,8 @@ export class SearchGame extends Component {
             // window.location.replace('/search-game');
             return;
         }
-
-        const dbAccess = 'https://localhost:44414/api/user/searchusername';
+        console.log(this.state.searchTerm);
+        const dbAccess = 'https://localhost:44414/api/user/' + this.state.searchTerm;
         // const authToken = 'Bearer ' + token;
 
         try {
@@ -43,7 +44,8 @@ export class SearchGame extends Component {
                 headers: {
                     'Content-Type': 'application/json',
                     // 'Authorization': authToken
-                }
+                },
+                
             });
 
             console.log(response);
@@ -51,9 +53,11 @@ export class SearchGame extends Component {
             if (response.ok) {
                 const data = await response.json();
                 this.setState({
-                    user: data.username
+                    user: data.username,
+                    searchUserId: data.id
                 })
-                console.log(this.state.user)
+                const profileLink = '/profile/' + data.id;
+                window.location.replace(profileLink);
             } else {
                 console.error("error fetching user data: ", response.statusText);
             }
@@ -61,6 +65,7 @@ export class SearchGame extends Component {
             console.error("Error fetching user data: ", error.message);
         }
     }
+
 
     handleSearchChange(event) {
         const term = event.target.value;
@@ -78,7 +83,6 @@ export class SearchGame extends Component {
                 marginBottom={4}
             >
             </Box>
-            <p>Search Term: {this.state.searchTerm}</p>
         </>
         )
     }
@@ -86,17 +90,8 @@ export class SearchGame extends Component {
     searchLogic() {
         const { user, searchTerm } = this.state;
 
-        const isMatch = user.toLowerCase().includes(searchTerm.toLowerCase());
+        const isMatch = user.includes(searchTerm);
 
-        return (
-            <div>
-            {isMatch ? (
-                <p>User Found: {user}</p>
-            ) : (
-                <p>No matching user found.</p>
-            )}
-            </div>
-        );
       }
 
     render() {

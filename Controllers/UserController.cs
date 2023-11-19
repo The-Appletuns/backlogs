@@ -35,7 +35,7 @@ public class UserController : ControllerBase
 
     [AllowAnonymous]
     [Route("searchusername")]
-    [HttpGet()]
+    [HttpGet("{username}")]
     public async Task<ActionResult<User>> GetByUsername(string username)
     {
         var user = await _usersService.GetUserFromUsername(username);
