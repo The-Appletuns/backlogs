@@ -27,11 +27,11 @@ export class SearchUser extends Component {
     async fetchUserData() {
         const token = localStorage.getItem('token');
 
-        if (!token) {
-            console.error("ERROR Token does not exist");
-            // window.location.replace('/search-game');
-            return;
-        }
+        // if (!token) {
+        //     console.error("ERROR Token does not exist");
+        //     // window.location.replace('/search-game');
+        //     return;
+        // }
         console.log(this.state.searchTerm.toLowerCase());
         const dbAccess = 'https://localhost:44414/api/user/' + this.state.searchTerm.toLowerCase();
         // const authToken = 'Bearer ' + token;

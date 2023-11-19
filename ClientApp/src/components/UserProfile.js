@@ -67,11 +67,11 @@ class UserProfile extends Component {
 
         const token = localStorage.getItem('token');
 
-        if (!token) {
-            console.error("ERROR Token does not exist");
-            window.location.replace('/login');
-            return;
-        }
+        // if (!token) {
+        //     console.error("ERROR Token does not exist");
+        //     window.location.replace('/login');
+        //     return;
+        // }
 
         const dbAccess = 'https://localhost:44414/api/user/' + userID;
         const authToken = 'Bearer ' + token;
