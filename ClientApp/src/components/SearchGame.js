@@ -14,6 +14,9 @@ export class SearchGame extends Component {
         this.state = {
             gameGenres: null,
             platforms: null,
+            searchTitle: null,
+            searchGenre: null,
+            searchPlatform: null,
         }
 
         this.fetchGenres = this.fetchGenres.bind(this);
@@ -101,6 +104,35 @@ export class SearchGame extends Component {
         }
     }
 
+    searchClicked() {
+        // 
+        // Search button clicked and sends to backend to try and find data
+        // 
+
+        console.log("Search clicked");
+        console.log(this.state.searchTitle);
+        console.log(this.state.searchGenre);
+        console.log(this.state.searchPlatform);
+
+        // Send this data to backend and get a result
+    }
+
+    gameTitleSearch() {
+
+        return (
+            <TextField
+                label='Game Title'
+                variant='outlined'
+                style={{ width: "100%"}}
+                value={this.state.searchTitle}
+                onChange={(event) => this.setState({
+                    searchTitle: event.target.value
+                    })}>
+
+            </TextField>
+        )
+    }
+
     genreSelectForm(genreList) {
 
         if (genreList == null) {
@@ -121,7 +153,10 @@ export class SearchGame extends Component {
                         marginTop: 5,
                         width: 250,
                         height: 50,
-                    }}                
+                    }}
+                    onChange={(event) => this.setState({
+                        searchGenre: event.target.value
+                        })}
                 >
                     {genreList.map((genre) => {
                         return (
@@ -138,7 +173,7 @@ export class SearchGame extends Component {
         if (platformList == null) {
             return (
                 <Box>
-                    Loading Genres
+                    Loading Platforms
                 </Box>
             )
         }
@@ -153,7 +188,10 @@ export class SearchGame extends Component {
                         marginTop: 5,
                         width: 250,
                         height: 50,
-                    }}                
+                    }}
+                    onChange={(event) => this.setState({
+                        searchPlatform: event.target.value
+                        })}
                 >
                     {platformList.map((platform) => {
                         return (
@@ -168,116 +206,31 @@ export class SearchGame extends Component {
     render() {
         return (
 
-            <><Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                marginBottom={4}
-            >
-                <h1>Search Game</h1>
+            <Box>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginBottom={4}
+                >
+                    <h1>Search Game</h1>
+                </Box>
+
+                {/* Search Title */}
+                {this.gameTitleSearch()}
+
+                {/* First Select */}
+                {this.genreSelectForm(this.state.gameGenres)}
+
+                {/* Second Select */}
+                {this.platformSelectForm(this.state.platforms)}
+
+                <Button
+                    variant='contained'
+                    onClick={this.searchClicked()}>
+                    Search
+                </Button>
             </Box>
-            <Autocomplete
-                style={{ width: "100%"}}
-                options={games}
-                renderInput={(params) => {
-                    return (
-                        <div ref={params.InputProps.ref}>
-                            {/* <label htmlFor='game-lists'>Game Title:</label> */}
-                            <input
-                                id='game-lists'
-                                type='text'
-                                placeholder='Game Title'
-                                style={{
-                                    border: "1px solid #cccccc",
-                                    padding: "10px",
-                                    width: "100%",
-                                }}
-                                {...params.inputProps}
-                            />
-                        </div>
-                    );
-                }}
-            />
-            {/* First Select */}
-            {this.genreSelectForm(this.state.gameGenres)}
-
-            {/* Second Select */}
-            {this.platformSelectForm(this.state.platforms)}
-            {/* <FormControl>
-                <InputLabel id="platform-select-label">Platform</InputLabel> 
-                <Select
-                    labelId="platform-select-label"
-                    sx={{
-                        marginLeft: 12,
-                        marginTop: 5,
-                        width: 250,
-                        height: 50,
-                    }}
-                >
-                    <MenuItem value={1}>PlayStation</MenuItem>
-                    <MenuItem value={2}>Xbox</MenuItem>
-                    <MenuItem value={3}>PC</MenuItem>
-                </Select>
-            </FormControl> */}
-
-            {/* Third Select */}
-            {/* <FormControl>
-                <InputLabel id="rating-select-label">Rating</InputLabel>
-                <Select
-                    labelId="rating-select-label"
-                    sx={{
-                        marginLeft: 18,
-                        marginTop: 5,
-                        width: 250,
-                        height: 50,
-                    }}
-                >
-                    <MenuItem value={1}>5 Stars</MenuItem>
-                    <MenuItem value={2}>4 Stars</MenuItem>
-                    <MenuItem value={3}>3 Stars</MenuItem>
-                    <MenuItem value={4}>2 Stars</MenuItem>
-                    <MenuItem value={5}>1 Star</MenuItem>
-                </Select>
-            </FormControl> */}
-
-            {/* <FormControl>
-                <InputLabel id="setting-select-label">Setting</InputLabel>
-                <Select
-                    labelId="setting-select-label"
-                    sx={{
-                        marginTop: 5,
-                        marginLeft: 40,
-                        width: 250,
-                        height: 50,
-                    }}
-                >
-                    <MenuItem value={1}>Fantasy</MenuItem>
-                    <MenuItem value={2}>Post-apocalyptic</MenuItem>
-                    <MenuItem value={3}>Sci-fi</MenuItem>
-                </Select>
-            </FormControl> */}
-
-            {/* <FormControl>
-                <InputLabel id="date-select-label">Release Date</InputLabel>
-                <Select
-                    labelId="date-select-label"
-                    sx={{
-                        marginTop: 5,
-                        marginLeft: 12,
-                        width: 250,
-                        height: 50,
-                    }}
-                    
-                >
-                    <MenuItem value={1}>2017</MenuItem>
-                    <MenuItem value={2}>1990</MenuItem>
-                    <MenuItem value={3}>2023</MenuItem>
-
-                </Select>
-            </FormControl> */}
-            </>
-
-            
         );
         
     }
