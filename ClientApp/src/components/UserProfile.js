@@ -5,6 +5,7 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import GameDisplayLayout from '../windows/GameDisplayLayout';
 
 import PersonIcon from '@mui/icons-material/Person';
 import withRouter from '../windows/withRouter';
@@ -350,7 +351,7 @@ class UserProfile extends Component {
                 {/* Shows horizontal list of recent games played */}
                 <Box>
                     <Typography variant='h4'>Recent Games</Typography>
-                    
+                    <GameDisplayLayout gameList={this.state.games} rowHeight={400} column={5}/>
                 </Box>
 
                 {/* Shows Reviews of games */}
