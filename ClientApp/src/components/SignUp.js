@@ -29,8 +29,8 @@ export class SignUp extends Component {
     signUpPressed = async () => {
         // When sign up button is pressed
 
-        const username = this.state.username;
-        const email = this.state.email;
+        const username = this.state.username.toLowerCase();
+        const email = this.state.email.toLowerCase();
         const firstName = this.state.firstName;
         const lastName = this.state.lastName;
         const password = this.state.password;

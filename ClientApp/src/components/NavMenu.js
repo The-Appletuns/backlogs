@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import PersonIcon from '@mui/icons-material/Person'
 import SearchIcon from '@mui/icons-material/Search';
 import PersonSearchIcon from '@mui/icons-material/PersonSearch';
+import HomeIcon from '@mui/icons-material/Home';
 import './NavMenu.css';
 
 export class NavMenu extends Component {
@@ -51,14 +52,14 @@ export class NavMenu extends Component {
           <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
           <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>
             <ul className="navbar-nav flex-grow">
-            <NavItem>
+              <NavItem>
+                <NavLink tag={Link} className="text-dark" to="/"><HomeIcon/></NavLink>
+              </NavItem>
+              <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/search-game"><SearchIcon/></NavLink>
               </NavItem>
               <NavItem>
                 <NavLink tag={Link} className="text-dark" to="/search-user"><PersonSearchIcon/></NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/">Home</NavLink>
               </NavItem>
               {this.userLoggedIn()}
             </ul>

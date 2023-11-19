@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import SearchIcon from '@mui/icons-material/Search';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
-import { Box, Button, TextField, Autocomplete, Grid, Typography, MenuItem, Select, InputLabel, FormControl, FormLabel, StepLabel, IconButton } from '@mui/material';
+import { Box, TextField, IconButton } from '@mui/material';
 
 export class SearchUser extends Component {
     static displayName = SearchUser.name;
@@ -34,8 +32,8 @@ export class SearchUser extends Component {
             // window.location.replace('/search-game');
             return;
         }
-        console.log(this.state.searchTerm);
-        const dbAccess = 'https://localhost:44414/api/user/' + this.state.searchTerm;
+        console.log(this.state.searchTerm.toLowerCase());
+        const dbAccess = 'https://localhost:44414/api/user/' + this.state.searchTerm.toLowerCase();
         // const authToken = 'Bearer ' + token;
 
         try {
@@ -58,6 +56,8 @@ export class SearchUser extends Component {
                 })
                 const profileLink = '/profile/' + data.id;
                 window.location.replace(profileLink);
+            } else if (response.statusText === "Not Found") {
+                window.alert("User Not Found");
             } else {
                 console.error("error fetching user data: ", response.statusText);
             }
