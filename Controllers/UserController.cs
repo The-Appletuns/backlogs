@@ -16,7 +16,8 @@ public class UserController : ControllerBase
     public UserController(UsersService usersService) =>
         _usersService = usersService;
     
-    [HttpGet]
+    [AllowAnonymous]
+    [HttpGet] 
     public async Task<List<User>> Get() =>
         await _usersService.GetAsync();
     
@@ -24,6 +25,21 @@ public class UserController : ControllerBase
     public async Task<ActionResult<User>> Get(string id)
     {
         var user = await _usersService.GetAsync(id);
+
+        if (user is null)
+        {
+            return NotFound();
+        }
+
+        return user;
+    }
+
+    [AllowAnonymous]
+    [Route("searchusername")]
+    [HttpGet("{username}")]
+    public async Task<ActionResult<User>> GetByUsername(string username)
+    {
+        var user = await _usersService.GetUserFromUsername(username);
 
         if (user is null)
         {
