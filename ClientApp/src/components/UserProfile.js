@@ -333,6 +333,19 @@ class UserProfile extends Component {
         )
     }
 
+    parseGameState(gameData) {
+        // console.log(gameData);
+
+        const gameInfo = [];
+        
+        for(let i = 0; i < gameData.length; i++) {
+            const game = JSON.parse(gameData[i]);
+            gameInfo.push(game);
+        }
+
+        return gameInfo;
+    }
+
     userProfileBody() {
         // User profile displaying games and other info
 
@@ -350,20 +363,8 @@ class UserProfile extends Component {
 
                 {/* Shows horizontal list of recent games played */}
                 <Box>
-                    <Typography variant='h4'>Recent Games</Typography>
-                    <GameDisplayLayout gameList={this.state.games} rowHeight={400} column={5}/>
-                </Box>
-
-                {/* Shows Reviews of games */}
-                <Box>
-                    <Typography variant='h4'>Recent Reviews</Typography>
-                    
-                </Box>
-
-                {/* Shows grid of game collection */}
-                <Box>
-                    <Typography variant='h4'>Collection Games</Typography>
-                    
+                    <Typography variant='h4'>Game Collection</Typography>
+                    <GameDisplayLayout gameList={this.parseGameState(this.state.games)} rowHeight={400} column={5}/>
                 </Box>
             </Stack>
         )

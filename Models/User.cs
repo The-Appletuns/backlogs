@@ -42,5 +42,5 @@ public class User
 
     [BsonElement("games")]
     [JsonPropertyName("games")]
-    public List<int?>? Games { get; set; } = null!;
+    public List<string?>? Games { get; set; } = null!;
 }

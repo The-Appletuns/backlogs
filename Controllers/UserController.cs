@@ -114,11 +114,11 @@ public class UserController : ControllerBase
 
             currentUser.Following ??= new List<string?>();
             currentUser.Followers ??= new List<string?>();
-            currentUser.Games ??= new List<int?>();
+            currentUser.Games ??= new List<string?>();
 
             followingUser.Following ??= new List<string?>();
             followingUser.Followers ??= new List<string?>();
-            followingUser.Games ??= new List<int?>();
+            followingUser.Games ??= new List<string?>();
 
             currentUser.Following.Add(followingUserID);
             followingUser.Followers.Add(currentUserID);
@@ -166,11 +166,11 @@ public class UserController : ControllerBase
 
             currentUser.Following ??= new List<string?>();
             currentUser.Followers ??= new List<string?>();
-            currentUser.Games ??= new List<int?>();
+            currentUser.Games ??= new List<string?>();
 
             followingUser.Following ??= new List<string?>();
             followingUser.Followers ??= new List<string?>();
-            followingUser.Games ??= new List<int?>();
+            followingUser.Games ??= new List<string?>();
 
             currentUser.Following.Remove(followingUserID);
             followingUser.Followers.Remove(currentUserID);
@@ -203,10 +203,10 @@ public class UserController : ControllerBase
         try 
         {
             string currentUserID = gameRequest.CurrentUserID;
-            int gameID = gameRequest.GameID;
+            string gameData = gameRequest.GameData;
 
-            Console.WriteLine(currentUserID);
-            Console.WriteLine(gameID);
+            // Console.WriteLine(currentUserID);
+            // Console.WriteLine(gameData);
 
             var currentUser = await _usersService.GetAsync(currentUserID);
 
@@ -217,9 +217,9 @@ public class UserController : ControllerBase
 
             currentUser.Following ??= new List<string?>();
             currentUser.Followers ??= new List<string?>();
-            currentUser.Games ??= new List<int?>();
+            currentUser.Games ??= new List<string?>();
 
-            currentUser.Games.Add(gameID);
+            currentUser.Games.Add(gameData);
 
             currentUser.Following.RemoveAll(string.IsNullOrEmpty);
             currentUser.Followers.RemoveAll(string.IsNullOrEmpty);
@@ -233,7 +233,7 @@ public class UserController : ControllerBase
             Console.Error.WriteLine($"Error in Follow: {ex.Message}");
             Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
             Console.Error.WriteLine($"CurrentID: {gameRequest.CurrentUserID}");
-            Console.Error.WriteLine($"GameID: {gameRequest.GameID}");
+            Console.Error.WriteLine($"GameID: {gameRequest.GameData}");
             return StatusCode(500, "Internal Server Error");
         }
     }
@@ -245,7 +245,7 @@ public class UserController : ControllerBase
         try 
         {
             string currentUserID = gameRequest.CurrentUserID;
-            int gameID = gameRequest.GameID;
+            string gameData = gameRequest.GameData;
 
             // Console.WriteLine(currentUserID);
             // Console.WriteLine(followingUserID);
@@ -259,9 +259,9 @@ public class UserController : ControllerBase
 
             currentUser.Following ??= new List<string?>();
             currentUser.Followers ??= new List<string?>();
-            currentUser.Games ??= new List<int?>();
+            currentUser.Games ??= new List<string?>();
 
-            currentUser.Games.Remove(gameID);
+            currentUser.Games.Remove(gameData);
 
             currentUser.Following.RemoveAll(string.IsNullOrEmpty);
             currentUser.Followers.RemoveAll(string.IsNullOrEmpty);
@@ -275,7 +275,7 @@ public class UserController : ControllerBase
             Console.Error.WriteLine($"Error in Follow: {ex.Message}");
             Console.Error.WriteLine($"Stack Trace: {ex.StackTrace}");
             Console.Error.WriteLine($"CurrentID: {gameRequest.CurrentUserID}");
-            Console.Error.WriteLine($"GameID: {gameRequest.GameID}");
+            Console.Error.WriteLine($"GameID: {gameRequest.GameData}");
             return StatusCode(500, "Internal Server Error");
         }
     }

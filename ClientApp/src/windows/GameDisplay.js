@@ -10,18 +10,18 @@ export default function GameDisplay({game}) {
 
     useEffect(() => {
         async function checkOwnership() {
-            const result = await ownedGame(game.id);
+            const result = await ownedGame(game.id, game.name, game.background_image);
             setIsOwned(result);
         }
 
         checkOwnership();
-    }, [game.id]);
+    }, [game.id, game.name, game.background_image]);
 
     const handleIconClick = async () => {
         if (isOwned) {
-            await removeGame(game.id);
+            await removeGame(game.id, game.name, game.background_image);
         } else {
-            await addGame(game.id);
+            await addGame(game.id, game.name, game.background_image);
         }
 
         setIsOwned(!isOwned);
@@ -52,7 +52,7 @@ export default function GameDisplay({game}) {
     )
 }
 
-async function ownedGame(gameID) {
+async function ownedGame(gameID, gameName, gameBackground) {
     // Checks if user owns game, determines icon
 
     const token = localStorage.getItem('token');
@@ -66,6 +66,12 @@ async function ownedGame(gameID) {
     const dbAccess = 'https://localhost:44414/api/user/' + userID;
     const authToken = 'Bearer ' + token;
 
+    const gameData = JSON.stringify({
+        "id": gameID,
+        "name": gameName,
+        "background_image": gameBackground
+    })
+
     const response = await fetch(dbAccess, {
         method: 'GET',
         headers: {
@@ -77,13 +83,13 @@ async function ownedGame(gameID) {
     if (response.ok) {
         const data = await response.json();
 
-        return (data.games.includes(gameID));
+        return (data.games.includes(gameData));
     } else {
         console.error("error fetching user data:", response.statusText);
     }
 }
 
-async function addGame(gameID) {
+async function addGame(gameID, gameName, gameBackground) {
     // Adds game to user collection
     // if user is not logged in then reroute to login page
 
@@ -99,11 +105,17 @@ async function addGame(gameID) {
     const dbAccess = 'https://localhost:44414/api/user/addgame';
     const authToken = 'Bearer ' + token;
 
+    const gameData = JSON.stringify({
+        "id": gameID,
+        "name": gameName,
+        "background_image": gameBackground
+    })
+
     try {
 
         console.log("Sending request with payload:", JSON.stringify({
             "CurrentUserID": userID,
-            "GameID": gameID
+            "GameData": gameData
         }));
 
         const response = await fetch(dbAccess, {
@@ -114,7 +126,7 @@ async function addGame(gameID) {
             },
             body: JSON.stringify({
                 "CurrentUserID": userID,
-                "GameID": gameID
+                "GameData": gameData
             })
         })
 
@@ -131,7 +143,7 @@ async function addGame(gameID) {
     }
 }
 
-async function removeGame(gameID) {
+async function removeGame(gameID, gameName, gameBackground) {
     // Adds game to user collection
     // if user is not logged in then reroute to login page
 
@@ -147,11 +159,17 @@ async function removeGame(gameID) {
     const dbAccess = 'https://localhost:44414/api/user/removegame';
     const authToken = 'Bearer ' + token;
 
+    const gameData = JSON.stringify({
+        "id": gameID,
+        "name": gameName,
+        "background_image": gameBackground
+    })
+
     try {
 
         console.log("Sending request with payload:", JSON.stringify({
             "CurrentUserID": userID,
-            "GameID": gameID
+            "GameData": gameData
         }));
 
         const response = await fetch(dbAccess, {
@@ -162,7 +180,7 @@ async function removeGame(gameID) {
             },
             body: JSON.stringify({
                 "CurrentUserID": userID,
-                "GameID": gameID
+                "GameData": gameData
             })
         })
 

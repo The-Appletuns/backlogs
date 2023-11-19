@@ -5,5 +5,5 @@
 public class GameRequest
 {
     public required string CurrentUserID { get; set; }
-    public required int GameID { get; set; }
+    public required string GameData { get; set; }
 }
