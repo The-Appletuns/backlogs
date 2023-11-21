@@ -184,6 +184,7 @@ export class SignUp extends Component {
                         onChange={(event) => this.setState({username: event.target.value})}
                         onBlur={this.usernameBlur}
                         error={this.state.usernameError}
+                        sx={{m: 1}}
                     ></TextField>
 
                     <TextField
@@ -194,6 +195,7 @@ export class SignUp extends Component {
                         onChange={(event) => this.setState({email: event.target.value})}
                         onBlur={this.emailBlur}
                         error={this.state.emailError}
+                        sx={{m: 1}}
                     ></TextField>
 
                     <TextField
@@ -204,6 +206,7 @@ export class SignUp extends Component {
                         onChange={(event) => this.setState({firstName: event.target.value})}
                         onBlur={this.firstNameBlur}
                         error={this.state.firstNameError}
+                        sx={{m: 1}}
                     ></TextField>
 
                     <TextField
@@ -213,6 +216,7 @@ export class SignUp extends Component {
                         onChange={(event) => this.setState({lastName: event.target.value})}
                         onBlur={this.lastNameBlur}
                         error={this.state.lastNameError}
+                        sx={{m: 1}}
                     ></TextField>
 
                     <TextField
@@ -223,14 +227,15 @@ export class SignUp extends Component {
                         onChange={(event) => this.setState({password: event.target.value})}
                         onBlur={this.passwordBlur}
                         error={this.state.passwordError}
+                        sx={{m: 1}}
                         type='password'
                     ></TextField>
+
+                    <Button variant='contained' onClick={this.signUpPressed} sx={{m: 1}}>Sign Up</Button>
                 </FormControl>
 
-                <Button variant='contained' onClick={this.signUpPressed}>Sign Up</Button>
-
-                <Typography variant='h5'>Already have an account?</Typography>
-                <Button variant='outlined' component={Link} to="/login" >Login</Button>
+                <Typography variant='h5' sx={{m: 2}}>Already have an account? Log In!</Typography>
+                <Button variant='outlined' component={Link} to="/login" sx={{m: 1, width: 200}}>Login</Button>
             </Box>
         )
     }
