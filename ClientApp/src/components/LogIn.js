@@ -59,13 +59,19 @@ export class LogIn extends Component {
                 localStorage.setItem('token', token);
                 localStorage.setItem('mainUserID', userID);
 
+                this.setState({
+                    loginError: false
+                })
+
                 // Need some way to redirect to profile after logging in
                 // Temp fix i think this is wrong
                 window.location.replace('/profile');
             } else {
                 const errorText = await response.text();
 
-                window.alert('Wrong email or password. Try again');
+                this.setState({
+                    loginError: true
+                })
 
                 console.error('Login Failed. Server response: ', errorText);
             }
@@ -92,6 +98,7 @@ export class LogIn extends Component {
                         variant='outlined'
                         value={this.state.email}
                         onChange={(event) => this.setState({email: event.target.value})}
+                        error={this.state.loginError}
                     ></TextField>
                     <TextField
                         required
@@ -100,6 +107,7 @@ export class LogIn extends Component {
                         value={this.state.password}
                         onChange={(event) => this.setState({password: event.target.value})}
                         type='password'
+                        error={this.state.loginError}
                     ></TextField>
                 </FormControl>
 
