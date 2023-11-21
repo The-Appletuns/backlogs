@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import {Box, Button, TextField, MenuItem, Select, InputLabel, FormControl} from '@mui/material';
+import {Box, Button, TextField, MenuItem, Select, InputLabel, FormControl, IconButton} from '@mui/material';
 import GameDisplayLayout from '../windows/GameDisplayLayout';
+import SearchIcon from '@mui/icons-material/Search';
 
 export class SearchGame extends Component {
     static displayName = SearchGame.name;
@@ -281,11 +282,9 @@ export class SearchGame extends Component {
                     {/* Second Select */}
                     {this.platformSelectForm(this.state.platforms)}
 
-                    <Button
-                        variant='contained'
-                        onClick={this.searchClicked}>
-                        Search
-                    </Button>
+                    <IconButton variant="contained" color="black" onClick={this.searchClicked}>
+                        <SearchIcon />
+                    </IconButton>
                 </Box>
                 <Box>
                     {this.searchResults(this.state.results)}
