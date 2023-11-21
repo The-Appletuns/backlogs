@@ -65,6 +65,8 @@ export class LogIn extends Component {
             } else {
                 const errorText = await response.text();
 
+                window.alert('Wrong email or password. Try again');
+
                 console.error('Login Failed. Server response: ', errorText);
             }
         }
@@ -97,6 +99,7 @@ export class LogIn extends Component {
                         variant='outlined'
                         value={this.state.password}
                         onChange={(event) => this.setState({password: event.target.value})}
+                        type='password'
                     ></TextField>
                 </FormControl>
 
