@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Box, Button, TextField, MenuItem, Select, InputLabel, FormControl, IconButton} from '@mui/material';
+import {Box, Button, TextField, MenuItem, Select, InputLabel, FormControl, IconButton, Grid} from '@mui/material';
 import GameDisplayLayout from '../windows/GameDisplayLayout';
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -187,26 +187,34 @@ export class SearchGame extends Component {
 
         return(
             <FormControl>
-                <InputLabel id="genre-select-label">Genre</InputLabel>  
-                <Select
-                    labelId="genre-select-label"
-                    sx={{
-                        marginLeft: 19,
-                        marginTop: 5,
-                        width: 250,
-                        height: 50,
-                    }}
-                    value={this.state.searchGenre}
-                    onChange={(event) => this.setState({
-                        searchGenre: event.target.value
-                        })}
-                >
-                    {genreList.map((genre) => {
-                        return (
-                            <MenuItem value={genre.id}>{genre.name}</MenuItem>
-                        )
-                    })}
-                </Select>
+                <Grid id="genre-title">
+                    <Grid item xs={4}>
+                        <InputLabel id="genre-select-label" sx={{m: 5}}>Genre</InputLabel> 
+                    </Grid>
+                </Grid>
+                <Grid id="genre-select">
+                    <Grid item xs={4}>
+                        <Select
+                            labelId="genre-select-label"
+                            sx={{
+                                marginLeft: 19,
+                                marginTop: 5,
+                                width: 250,
+                                height: 50,
+                            }}
+                            value={this.state.searchGenre}
+                            onChange={(event) => this.setState({
+                                searchGenre: event.target.value
+                                })}
+                        >
+                            {genreList.map((genre) => {
+                                return (
+                                    <MenuItem value={genre.id}>{genre.name}</MenuItem>
+                                )
+                            })}
+                        </Select>
+                    </Grid>
+                </Grid>
             </FormControl>
         )
     }
@@ -223,26 +231,34 @@ export class SearchGame extends Component {
 
         return(
             <FormControl>
-                <InputLabel id="platform-select-label">Platform</InputLabel>  
-                <Select
-                    labelId="platform-select-label"
-                    sx={{
-                        marginLeft: 19,
-                        marginTop: 5,
-                        width: 250,
-                        height: 50,
-                    }}
-                    value={this.state.searchPlatform}
-                    onChange={(event) => this.setState({
-                        searchPlatform: event.target.value
-                        })}
-                >
-                    {platformList.map((platform) => {
-                        return (
-                            <MenuItem value={platform.id}>{platform.name}</MenuItem>
-                        )
-                    })}
-                </Select>
+                <Grid id="platform-title">
+                    <Grid item xs={4}>
+                        <InputLabel id="platform-select-label" sx={{m: 5}}>Platform</InputLabel> 
+                    </Grid>
+                </Grid>
+                <Grid id="platform-select">
+                    <Grid item xs={4}>
+                        <Select
+                            labelId="platform-select-label"
+                            sx={{
+                                marginLeft: 19,
+                                marginTop: 5,
+                                width: 250,
+                                height: 50,
+                            }}
+                            value={this.state.searchPlatform}
+                            onChange={(event) => this.setState({
+                                searchPlatform: event.target.value
+                                })}
+                        >
+                            {platformList.map((platform) => {
+                                return (
+                                    <MenuItem value={platform.id}>{platform.name}</MenuItem>
+                                )
+                            })}
+                        </Select>
+                    </Grid>
+                </Grid>
             </FormControl>
         )
     }
@@ -250,7 +266,11 @@ export class SearchGame extends Component {
     searchResults(gameSearchResults) {
         if (gameSearchResults == null) {
             return(
-                <Box>
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginBottom={4}>
                     Games not found
                 </Box>
             )
@@ -269,22 +289,29 @@ export class SearchGame extends Component {
                         display="flex"
                         alignItems="center"
                         justifyContent="center"
-                        marginBottom={4}>
+                        marginBottom={2}>
                         <h1>Search Game</h1>
                     </Box>
-
+                    
                     {/* Search Title */}
                     {this.gameTitleSearch()}
 
-                    {/* First Select */}
-                    {this.genreSelectForm(this.state.gameGenres)}
+                    <Box
+                        display="flex"
+                        alignItems="center"
+                        justifyContent="center"
+                        marginBottom={5}
+                    >
+                        {/* First Select */}
+                        {this.genreSelectForm(this.state.gameGenres)}
 
-                    {/* Second Select */}
-                    {this.platformSelectForm(this.state.platforms)}
+                        {/* Second Select */}
+                        {this.platformSelectForm(this.state.platforms)}
 
-                    <IconButton variant="contained" color="black" onClick={this.searchClicked}>
-                        <SearchIcon />
-                    </IconButton>
+                        <IconButton variant="contained" color="black" onClick={this.searchClicked} sx={{mx: 5}}>
+                            <SearchIcon />
+                        </IconButton>
+                    </Box>   
                 </Box>
                 <Box>
                     {this.searchResults(this.state.results)}
