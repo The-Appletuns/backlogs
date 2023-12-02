@@ -102,7 +102,7 @@ export class Home extends Component {
         <h1>Popular Games</h1>
         {this.attachGameData(this.state.trendingGames)}
 
-        <Box sx={{ flexGrow: 1 }}>
+        {/* <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Item>
@@ -183,7 +183,7 @@ export class Home extends Component {
             </Grid>
           </Grid>
 
-        </Box>
+        </Box> */}
 
       </Box>
       

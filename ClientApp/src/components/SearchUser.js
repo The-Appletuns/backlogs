@@ -98,16 +98,23 @@ export class SearchUser extends Component {
         return(
             <Box textAlign="center" marginTop={2}>
                  <h1>Search User</h1>
-                 <TextField
-                    label="Search users"
-                    variant="outlined"
-                    onChange={this.handleSearchChange}
-                    fullWidth
-                    margin="normal"
-                />
-                <IconButton variant="contained" color="black" onClick={this.fetchUserData}>
-                    <SearchIcon />
-                </IconButton>
+                 <Box
+                    display="flex"
+                    alignItems="center"
+                    justifyContent="center"
+                    marginBottom={2}>
+                    <TextField
+                        label="Search users"
+                        variant="outlined"
+                        onChange={this.handleSearchChange}
+                        fullWidth
+                        margin="normal"
+                    />
+                    <IconButton variant="contained" color="black" onClick={this.fetchUserData} sx={{mx: 2}}>
+                        <SearchIcon />
+                    </IconButton>
+                 </Box>
+                 
                 {this.searchtext()}
                 {this.searchLogic()}
             </Box>
