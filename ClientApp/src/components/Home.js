@@ -25,11 +25,14 @@ export class Home extends Component {
     super(props);
 
     this.state = {
-      trendingGames: null
+      trendingGames: null,
+      highestRatedGames: null
     }
 
     this.fetchTrendingGameData = this.fetchTrendingGameData.bind(this);
-    this.attachGameData = this.attachGameData.bind(this);
+    this.fetchHighestRatedGameData = this.fetchHighestRatedGameData.bind(this);
+    this.attachTrendingGameData = this.attachTrendingGameData.bind(this);
+    this.attachHighestRatedGameData = this.attachHighestRatedGameData.bind(this);
   }
 
   async componentDidMount() {
@@ -38,6 +41,7 @@ export class Home extends Component {
     // 
 
     this.fetchTrendingGameData();
+    this.fetchHighestRatedGameData();
 
   }
 
@@ -81,7 +85,7 @@ export class Home extends Component {
     console.log("finished fetching");
   }
 
-  attachGameData(trendGameData) {
+  attachTrendingGameData(trendGameData) {
 
     if (trendGameData == null) {
       return (
@@ -96,15 +100,66 @@ export class Home extends Component {
     )
   }
 
+  async fetchHighestRatedGameData() {
+    // 
+    // Gets highest rated game data
+    // 
+    console.log("Component Mounted");
+    
+    const dbGamesAccess = 'https://api.rawg.io/api/games?key=98a8b7c3c0ff460bbe11e7b0ca7a2375&page_size=5&metacritic=95,100'
+
+    try {
+      const response = await fetch (dbGamesAccess, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        this.setState({
+          highestRatedGames: data.results
+        });
+
+        console.log(data.results);
+      } else {
+        console.error("Response ok but error fetching recent game data: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching recent game data: ", error.message);
+    }
+
+    console.log("finished fetching");
+  }
+
+  attachHighestRatedGameData(highestRatedGameData) {
+
+    if (highestRatedGameData == null) {
+      return (
+        <Box>
+          Loading Data
+        </Box>
+      )
+    }
+
+    return(
+      <GameDisplayLayout gameList={highestRatedGameData} rowHeight={400} column={5}/>
+    )
+  }
+
   render() {
     return (
       <Box>
         {/* Games released in 2023 that have a Metacritic rating between 80 - 100 */}
-        <h1>Trending Games of 2023</h1>
-        {this.attachGameData(this.state.trendingGames)}
+        <h1>Trending Games</h1>
+        <p>Games released in 2023 with a Metacritic score over 80</p>
+        {this.attachTrendingGameData(this.state.trendingGames)}
 
         {/* Games with a Metacritic rating between 90 - 100 */}
         <h1>Highest Rated Games of All Time</h1>
+        <p>Games with a Metacritic score over 95</p>
+        {this.attachHighestRatedGameData(this.state.highestRatedGames)}
 
         {/* <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
