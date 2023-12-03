@@ -54,7 +54,7 @@ export class Home extends Component {
     // 
     console.log("Component Mounted");
     
-    const dbGamesAccess = 'https://api.rawg.io/api/games?key=98a8b7c3c0ff460bbe11e7b0ca7a2375&page_size=5'
+    const dbGamesAccess = 'https://api.rawg.io/api/games?key=98a8b7c3c0ff460bbe11e7b0ca7a2375&page_size=5&metacritic=80,100&dates=2023-01-01,2023-11-01'
 
     try {
       const response = await fetch (dbGamesAccess, {
@@ -99,8 +99,12 @@ export class Home extends Component {
   render() {
     return (
       <Box>
-        <h1>Popular Games</h1>
+        {/* Games released in 2023 that have a Metacritic rating between 80 - 100 */}
+        <h1>Trending Games of 2023</h1>
         {this.attachGameData(this.state.trendingGames)}
+
+        {/* Games with a Metacritic rating between 90 - 100 */}
+        <h1>Highest Rated Games of All Time</h1>
 
         {/* <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
