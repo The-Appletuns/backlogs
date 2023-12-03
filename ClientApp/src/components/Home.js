@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { styled } from '@mui/material/styles';
+import { borders } from '@mui/system';
+
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button'
@@ -151,15 +153,26 @@ export class Home extends Component {
   render() {
     return (
       <Box>
-        {/* Games released in 2023 that have a Metacritic rating between 80 - 100 */}
-        <h1>Trending Games</h1>
-        <p>Games released in 2023 with a Metacritic score over 80</p>
-        {this.attachTrendingGameData(this.state.trendingGames)}
+        <Box sx={{m: 3, p: 3, border: 5, borderColor: 'grey.500', borderRadius: '16px'}}>
 
-        {/* Games with a Metacritic rating between 90 - 100 */}
-        <h1>Highest Rated Games of All Time</h1>
-        <p>Games with a Metacritic score over 95</p>
-        {this.attachHighestRatedGameData(this.state.highestRatedGames)}
+          {/* Games released in 2023 that have a Metacritic rating between 80 - 100 */}
+          <h1>Trending Games</h1>
+          <p>Games released in 2023 with a Metacritic score over 80</p>
+          {this.attachTrendingGameData(this.state.trendingGames)}
+
+        </Box>
+
+        <Box sx={{m: 3, p: 3, border: 5, borderColor: 'grey.500', borderRadius: '16px'}}>
+
+          {/* Games with a Metacritic rating between 90 - 100 */}
+          <h1>Highest Rated Games of All Time</h1>
+          <p>Games with a Metacritic score over 95</p>
+          {this.attachHighestRatedGameData(this.state.highestRatedGames)}
+
+        </Box>
+        
+
+        
 
         {/* <Box sx={{ flexGrow: 1 }}>
           <Grid container spacing={2}>
