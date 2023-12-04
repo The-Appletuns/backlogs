@@ -1,12 +1,14 @@
 import React from 'react';
 import { Box, Typography } from '@mui/material';
 
-// User list display
-export default function UserListDisplay() {
+export default function UserDisplay({user}) {
     return(
         <Box>
             <Typography>
-                {/* Username here */}
+                {user.username}
+            </Typography>
+            <Typography>
+                {user.username}
             </Typography>
         </Box>
     )
