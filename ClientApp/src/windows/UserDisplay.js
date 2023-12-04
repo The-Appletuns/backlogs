@@ -60,7 +60,7 @@ async function getUser(id) {
         return;
     }
 
-    const dbAccess = 'https://localhost:44414/api/user/' + id;
+    const dbAccess = 'http://vgbacklogs.com/api/user/' + id;
     const authToken = 'Bearer ' + token;
 
     const response = await fetch(dbAccess, {
