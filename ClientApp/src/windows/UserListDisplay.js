@@ -1,13 +1,17 @@
 import React from 'react';
-import { Box, Typography } from '@mui/material';
+import { Box, Stack } from '@mui/material';
+import UserDisplay from './UserDisplay';
 
 // User list display
-export default function UserListDisplay() {
+export default function UserListDisplay( {follow} ) {
     return(
-        <Box>
-            <Typography>
-                {/* Username here */}
-            </Typography>
-        </Box>
+        <Stack
+            spacing={1}>
+            {follow.map((user) => {
+                return (
+                    <UserDisplay user={user}/>
+                )
+            })}
+        </Stack>
     )
 }

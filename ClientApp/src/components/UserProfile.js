@@ -7,7 +7,11 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import GameDisplayLayout from '../windows/GameDisplayLayout';
 
+import UserDisplay from '../windows/UserDisplay';
+import UserListDisplay from '../windows/UserListDisplay';
+
 import PersonIcon from '@mui/icons-material/Person';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
 import withRouter from '../windows/withRouter';
 
 class UserProfile extends Component {
@@ -26,7 +30,9 @@ class UserProfile extends Component {
             followingCount: 0,
             games: [],
             gamesCount: 0,
-            userType: null
+            userType: null,
+            seeFollowers: false,
+            seeFollowing: false,
         }
 
         this.signOut = this.signOut.bind(this);
@@ -36,6 +42,7 @@ class UserProfile extends Component {
         this.followUser = this.followUser.bind(this);
         this.unfollowUser = this.unfollowUser.bind(this);
         this.followButtonState = this.followButtonState.bind(this);
+        this.showUserList = this.showUserList.bind(this);
     }
 
     async componentDidMount() {
@@ -283,6 +290,28 @@ class UserProfile extends Component {
         }
     }
 
+    showUserList() {
+        // 
+        // Shows list of followers or following based on what the user clicks
+        // 
+
+        if (!this.state.seeFollowers && !this.state.seeFollowing) {
+            return;
+        }
+
+        if (this.state.seeFollowers && !this.state.seeFollowing) {
+            return (
+                <UserListDisplay follow={this.state.followers}></UserListDisplay>
+            );
+        }
+
+        if (!this.state.seeFollowers && this.state.seeFollowing) {
+            return (
+                <UserListDisplay follow={this.state.following}></UserListDisplay>
+            );
+        }
+    }
+
     userProfileHeader() {
         // User info at the header
 
@@ -299,8 +328,13 @@ class UserProfile extends Component {
                     {/* Username is the username lmao */}
                     <Typography variant='h2'>{this.state.username}</Typography>
 
-                    {/* Button would either be Follow, Following, Edit Profile */}
-                    {/* <Button variant='contained' size='large'>Follow</Button> */}
+                    {/* Number of games played */}
+                    <Stack
+                        direction='row'
+                        spacing={1}>
+                        <SportsEsportsIcon fontSize='large'/>
+                        <Typography variant='h5'>{this.state.gamesCount}</Typography>
+                    </Stack>
                 </Stack>
                 <Stack 
                     direction="row"
@@ -308,23 +342,29 @@ class UserProfile extends Component {
                     divider={<Divider orientation="vertical" flexItem/>}
                     spacing={2}>
 
-                    {/* Number of games played */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.gamesCount}</Typography>
-                        <Typography variant='h5'>Games</Typography>
-                    </Box>
-
                     {/* Number of followers */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.followersCount}</Typography>
-                        <Typography variant='h5'>Followers</Typography>
-                    </Box>
+                    <Button
+                        onClick={() => {
+                            this.setState({seeFollowers: !this.state.seeFollowers})
+                            this.setState({seeFollowing: false})
+                        }}>
+                        <Box>
+                            <Typography variant='h5'>{this.state.followersCount}</Typography>
+                            <Typography variant='h6'>Followers</Typography>
+                        </Box>
+                    </Button>
 
                     {/* Number of people following */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.followingCount}</Typography>
-                        <Typography variant='h5'>Following</Typography>
-                    </Box>
+                    <Button
+                        onClick={() => {
+                            this.setState({seeFollowing: !this.state.seeFollowing})
+                            this.setState({seeFollowers: false})
+                        }}>
+                        <Box>
+                            <Typography variant='h5'>{this.state.followingCount}</Typography>
+                            <Typography variant='h6'>Following</Typography>
+                        </Box>
+                    </Button>
 
                 </Stack>
                 {/* <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button> */}
@@ -355,11 +395,7 @@ class UserProfile extends Component {
                 divider={<Divider orientation="horizontal" flexItem/>}
                 spacing={4}>
 
-                {/* Shows horizontal list of favorite games */}
-                <Box>
-                    <Typography variant='h4'>Favorite Games</Typography>
-
-                </Box>
+                {this.showUserList()}
 
                 {/* Shows horizontal list of recent games played */}
                 <Box>
