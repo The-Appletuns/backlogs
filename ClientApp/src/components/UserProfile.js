@@ -12,7 +12,9 @@ import UserListDisplay from '../windows/UserListDisplay';
 
 import PersonIcon from '@mui/icons-material/Person';
 import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import ShareIcon from '@mui/icons-material/Share';
 import withRouter from '../windows/withRouter';
+import { IconButton } from '@mui/material';
 
 class UserProfile extends Component {
     static displayName = UserProfile.name;
@@ -43,6 +45,7 @@ class UserProfile extends Component {
         this.unfollowUser = this.unfollowUser.bind(this);
         this.followButtonState = this.followButtonState.bind(this);
         this.showUserList = this.showUserList.bind(this);
+        this.copyUserLink = this.copyUserLink.bind(this);
     }
 
     async componentDidMount() {
@@ -250,6 +253,31 @@ class UserProfile extends Component {
         }
     }
 
+    copyUserLink() {
+        // 
+        // Gets user link and copys to clipboard
+        // 
+
+        console.log("SHARE USER LINK BUTTON CLICKED");
+
+        const currentProfile = this.props.params.userId;
+        const userID = localStorage.getItem("mainUserID");
+
+        let webLink = 'http://vgbacklogs.com/profile/';
+
+        if (currentProfile == null) {
+            webLink += userID;
+        } else {
+            webLink += currentProfile;
+        }
+
+        console.log("LINK IS", webLink);
+
+        navigator.clipboard.writeText(webLink);
+
+        alert("User Profile Link copied to Clipboard");
+    }
+
     followButtonState() {
         // 
         // Checks if user follows this user or not
@@ -283,9 +311,15 @@ class UserProfile extends Component {
             }
         } else {
             return (
-                <Button variant='contained' size='small' onClick={this.signOut}>
-                    Sign Out
-                </Button>
+                <Box>
+                    {/* <IconButton size='large' onClick={this.copyUserLink}>
+                        <ShareIcon/>
+                    </IconButton> */}
+                    <Button variant='contained' size='small' onClick={this.signOut}>
+                        Sign Out
+                    </Button>
+                </Box>
+                
             );
         }
     }
@@ -365,6 +399,10 @@ class UserProfile extends Component {
                             <Typography variant='h6'>Following</Typography>
                         </Box>
                     </Button>
+
+                    <IconButton size='large' onClick={this.copyUserLink}>
+                        <ShareIcon/>
+                    </IconButton>
 
                 </Stack>
                 {/* <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button> */}
