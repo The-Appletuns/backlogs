@@ -1,30 +1,12 @@
-# BackLogs
-## How to Run Project
-* go to Terminal on the backlogs folder
-* type ```dotnet run```
-* click on "Now listening on: http://localhost:5144"
+# [VGBackLogs](http://vgbacklogs.com/)
+Welcome to VGBackLogs.com! This is a social web platform where users can gather, display, and share their game catalogs across multiple platforms.
 
-## Project Breakdown
-### Front-End
-* React
-* Located in ClientApp
-* Add to NavMenu.js
-* Also add to appRoutes.js
-* To pull data from a c# component, you need to add the JS file to AppRoutes AND add the link name to setupProxy.js
+## Check out the platform
+You can check out the web platform here!
 
-### Back-end
-* ASP.NET
-* Add Controllers to obtain data and create JSON formats
-* Create a new Data Container to obtain data in a class
+[VGBackLogs](http://vgbacklogs.com/)
 
-# Components for the App
-## Home Page
+## Demo
+Linked below is a demo of how the social platform works.
 
-## User Page
-
-## Games Page
-
-## Games List Page
-
-## Follow Feed
-
+[YouTube](https://www.youtube.com/watch?v=6brrXXJ1s3g)
