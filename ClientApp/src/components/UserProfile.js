@@ -5,9 +5,16 @@ import Stack from '@mui/material/Stack';
 import Divider from '@mui/material/Divider';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
+import GameDisplayLayout from '../windows/GameDisplayLayout';
+
+import UserDisplay from '../windows/UserDisplay';
+import UserListDisplay from '../windows/UserListDisplay';
 
 import PersonIcon from '@mui/icons-material/Person';
+import SportsEsportsIcon from '@mui/icons-material/SportsEsports';
+import ShareIcon from '@mui/icons-material/Share';
 import withRouter from '../windows/withRouter';
+import { IconButton } from '@mui/material';
 
 class UserProfile extends Component {
     static displayName = UserProfile.name;
@@ -25,15 +32,29 @@ class UserProfile extends Component {
             followingCount: 0,
             games: [],
             gamesCount: 0,
+            userType: null,
+            seeFollowers: false,
+            seeFollowing: false,
         }
 
         this.signOut = this.signOut.bind(this);
         this.userProfileHeader = this.userProfileHeader.bind(this);
         this.userProfileBody = this.userProfileBody.bind(this);
         this.componentDidMount = this.componentDidMount.bind(this);
+        this.followUser = this.followUser.bind(this);
+        this.unfollowUser = this.unfollowUser.bind(this);
+        this.followButtonState = this.followButtonState.bind(this);
+        this.showUserList = this.showUserList.bind(this);
+        this.copyUserLink = this.copyUserLink.bind(this);
     }
 
     async componentDidMount() {
+        // 
+        // Once backend connected, checks if there is a /profile/{userid} or /profile link
+        //      if with userid then go to that user profile specifically
+        //      else go to the current user whos logged in
+        // 
+
         console.log('UserProfile componentDidMount', this.props.params.userId);
 
         const userID = this.props.params.userId || localStorage.getItem('mainUserID');
@@ -41,16 +62,28 @@ class UserProfile extends Component {
         await this.fetchUserData(userID);
     }
 
+    async componentDidUpdate() {
+        // console.log('UserProfile componentDidUpdate', this.props.params.userId);
+
+        const userID = this.props.params.userId || localStorage.getItem('mainUserID');
+        // console.log('UserID:', userID);
+        await this.fetchUserData(userID);
+    }
+
     async fetchUserData(userID) {
+        // 
+        // Gets user information
+        // 
+
         const token = localStorage.getItem('token');
 
-        if (!token) {
-            console.error("ERROR Token does not exist");
-            window.location.replace('/login');
-            return;
-        }
+        // if (!token) {
+        //     console.error("ERROR Token does not exist");
+        //     window.location.replace('/login');
+        //     return;
+        // }
 
-        const dbAccess = 'http://ec2-54-183-127-27.us-west-1.compute.amazonaws.com/api/user/' + userID;
+        const dbAccess = 'http://vgbacklogs.com/api/user/' + userID;
         const authToken = 'Bearer ' + token;
 
         try {
@@ -84,7 +117,9 @@ class UserProfile extends Component {
     }
 
     signOut() {
-        // Logout and reset state
+        // 
+        // Logout and reset state + delete token
+        // 
 
         console.log("Signing out");
         localStorage.clear();
@@ -103,6 +138,10 @@ class UserProfile extends Component {
     }
 
     checkArrayEmpty(arr) {
+        // 
+        // Checks if the array is empty to make sure to give a value of 0
+        // 
+
         if (arr.length === 1) {
             if (arr[0] === "") {
                 return 0;
@@ -110,6 +149,201 @@ class UserProfile extends Component {
         }
 
         return arr.length;
+    }
+
+    async followUser() {
+        //
+        // Follow user
+        //      Should add user to following list
+        //      Should add profile user to follower list
+        // 
+
+        let currentUser = localStorage.getItem("mainUserID");
+        let followingUser = this.props.params.userId;
+
+        console.log("Current User:", currentUser);
+        console.log("Following User:", followingUser);
+
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("ERROR Token does not exist");
+            window.location.replace('/login');
+            return;
+        }
+
+        const dbAccess = 'http://vgbacklogs.com/api/user/follow';
+        const authToken = 'Bearer ' + token;
+
+        try {
+
+            const response = await fetch(dbAccess, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                },
+                body: JSON.stringify({
+                    "CurrentUserID": currentUser,
+                    "FollowingUserID": followingUser
+                })
+            })
+
+            console.log(response);
+
+            if (response.ok) {
+                console.log("Follow request finished");
+            } else {
+                console.error("Error putting follow data: ", response.statusText);
+            }
+
+        } catch (error) {
+            console.error("Error putting user data: ", error.message);
+        }
+    }
+
+    async unfollowUser() {
+        //
+        // Unfollow user
+        //      Should remove user to following list
+        //      Should remove profile user to follower list
+        // 
+
+        let currentUser = localStorage.getItem("mainUserID");
+        let followingUser = this.props.params.userId;
+
+        console.log("Current User:", currentUser);
+        console.log("Following User:", followingUser);
+
+        const token = localStorage.getItem('token');
+
+        if (!token) {
+            console.error("ERROR Token does not exist");
+            window.location.replace('/login');
+            return;
+        }
+
+        const dbAccess = 'http://vgbacklogs.com/api/user/unfollow';
+        const authToken = 'Bearer ' + token;
+
+        try {
+
+            const response = await fetch(dbAccess, {
+                method: "PUT",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': authToken
+                },
+                body: JSON.stringify({
+                    "CurrentUserID": currentUser,
+                    "FollowingUserID": followingUser
+                })
+            })
+
+            console.log(response);
+
+            if (response.ok) {
+                console.log("Follow request finished");
+            } else {
+                console.error("Error putting follow data: ", response.statusText);
+            }
+
+        } catch (error) {
+            console.error("Error putting user data: ", error.message);
+        }
+    }
+
+    copyUserLink() {
+        // 
+        // Gets user link and copys to clipboard
+        // 
+
+        console.log("SHARE USER LINK BUTTON CLICKED");
+
+        const currentProfile = this.props.params.userId;
+        const userID = localStorage.getItem("mainUserID");
+
+        let webLink = 'http://vgbacklogs.com/profile/';
+
+        if (currentProfile == null) {
+            webLink += userID;
+        } else {
+            webLink += currentProfile;
+        }
+
+        console.log("LINK IS", webLink);
+
+        navigator.clipboard.writeText(webLink);
+
+        alert("User Profile Link copied to Clipboard");
+    }
+
+    followButtonState() {
+        // 
+        // Checks if user follows this user or not
+        //      Returns appropriate button
+        // 
+
+        const currentProfile = this.props.params.userId;
+        const userFollows = localStorage.getItem("mainUserID");
+
+        if (currentProfile != null) {
+            if (this.state.followers.includes(userFollows)) {
+                // Place "followed" or "unfollow" button here
+                return (
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={this.unfollowUser}>
+                        Unfollow
+                    </Button>
+                );
+            } else {
+                // Place "follow" button here
+                return (
+                    <Button
+                        variant='contained'
+                        size='large'
+                        onClick={this.followUser}>
+                        Follow
+                    </Button>
+                );
+            }
+        } else {
+            return (
+                <Box>
+                    {/* <IconButton size='large' onClick={this.copyUserLink}>
+                        <ShareIcon/>
+                    </IconButton> */}
+                    <Button variant='contained' size='small' onClick={this.signOut}>
+                        Sign Out
+                    </Button>
+                </Box>
+                
+            );
+        }
+    }
+
+    showUserList() {
+        // 
+        // Shows list of followers or following based on what the user clicks
+        // 
+
+        if (!this.state.seeFollowers && !this.state.seeFollowing) {
+            return;
+        }
+
+        if (this.state.seeFollowers && !this.state.seeFollowing) {
+            return (
+                <UserListDisplay follow={this.state.followers}></UserListDisplay>
+            );
+        }
+
+        if (!this.state.seeFollowers && this.state.seeFollowing) {
+            return (
+                <UserListDisplay follow={this.state.following}></UserListDisplay>
+            );
+        }
     }
 
     userProfileHeader() {
@@ -128,8 +362,13 @@ class UserProfile extends Component {
                     {/* Username is the username lmao */}
                     <Typography variant='h2'>{this.state.username}</Typography>
 
-                    {/* Button would either be Follow, Following, Edit Profile */}
-                    <Button variant='contained' size='large'>Follow</Button>
+                    {/* Number of games played */}
+                    <Stack
+                        direction='row'
+                        spacing={1}>
+                        <SportsEsportsIcon fontSize='large'/>
+                        <Typography variant='h5'>{this.state.gamesCount}</Typography>
+                    </Stack>
                 </Stack>
                 <Stack 
                     direction="row"
@@ -137,27 +376,52 @@ class UserProfile extends Component {
                     divider={<Divider orientation="vertical" flexItem/>}
                     spacing={2}>
 
-                    {/* Number of games played */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.gamesCount}</Typography>
-                        <Typography variant='h5'>Games</Typography>
-                    </Box>
+                    {/* Number of followers */}
+                    <Button
+                        onClick={() => {
+                            this.setState({seeFollowers: !this.state.seeFollowers})
+                            this.setState({seeFollowing: false})
+                        }}>
+                        <Box>
+                            <Typography variant='h5'>{this.state.followersCount}</Typography>
+                            <Typography variant='h6'>Followers</Typography>
+                        </Box>
+                    </Button>
 
                     {/* Number of people following */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.followingCount}</Typography>
-                        <Typography variant='h5'>Following</Typography>
-                    </Box>
+                    <Button
+                        onClick={() => {
+                            this.setState({seeFollowing: !this.state.seeFollowing})
+                            this.setState({seeFollowers: false})
+                        }}>
+                        <Box>
+                            <Typography variant='h5'>{this.state.followingCount}</Typography>
+                            <Typography variant='h6'>Following</Typography>
+                        </Box>
+                    </Button>
 
-                    {/* Number of followers */}
-                    <Box>
-                        <Typography variant='h5'>{this.state.followersCount}</Typography>
-                        <Typography variant='h5'>Followers</Typography>
-                    </Box>
+                    <IconButton size='large' onClick={this.copyUserLink}>
+                        <ShareIcon/>
+                    </IconButton>
+
                 </Stack>
-                <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button>
+                {/* <Button variant='contained' size='small' onClick={this.signOut}>Sign Out</Button> */}
+                {this.followButtonState()}
             </Stack>
         )
+    }
+
+    parseGameState(gameData) {
+        // console.log(gameData);
+
+        const gameInfo = [];
+        
+        for(let i = 0; i < gameData.length; i++) {
+            const game = JSON.parse(gameData[i]);
+            gameInfo.push(game);
+        }
+
+        return gameInfo;
     }
 
     userProfileBody() {
@@ -169,28 +433,12 @@ class UserProfile extends Component {
                 divider={<Divider orientation="horizontal" flexItem/>}
                 spacing={4}>
 
-                {/* Shows horizontal list of favorite games */}
-                <Box>
-                    <Typography variant='h4'>Favorite Games</Typography>
-
-                </Box>
+                {this.showUserList()}
 
                 {/* Shows horizontal list of recent games played */}
                 <Box>
-                    <Typography variant='h4'>Recent Games</Typography>
-                    
-                </Box>
-
-                {/* Shows Reviews of games */}
-                <Box>
-                    <Typography variant='h4'>Recent Reviews</Typography>
-                    
-                </Box>
-
-                {/* Shows grid of game collection */}
-                <Box>
-                    <Typography variant='h4'>Collection Games</Typography>
-                    
+                    <Typography variant='h4'>Game Collection</Typography>
+                    <GameDisplayLayout gameList={this.parseGameState(this.state.games)} rowHeight={400} column={5}/>
                 </Box>
             </Stack>
         )

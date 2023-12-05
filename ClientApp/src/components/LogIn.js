@@ -33,7 +33,7 @@ export class LogIn extends Component {
         try {
             console.log("Got to try")
 
-            const response = await fetch('http://ec2-54-183-127-27.us-west-1.compute.amazonaws.com/api/user/authenticate', {
+            const response = await fetch('http://vgbacklogs.com/api/user/authenticate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,11 +59,19 @@ export class LogIn extends Component {
                 localStorage.setItem('token', token);
                 localStorage.setItem('mainUserID', userID);
 
+                this.setState({
+                    loginError: false
+                })
+
                 // Need some way to redirect to profile after logging in
                 // Temp fix i think this is wrong
                 window.location.replace('/profile');
             } else {
                 const errorText = await response.text();
+
+                this.setState({
+                    loginError: true
+                })
 
                 console.error('Login Failed. Server response: ', errorText);
             }
@@ -79,10 +87,9 @@ export class LogIn extends Component {
 
         return (
             <Box>
-                <Typography variant='h3'>
-                    Login to BackLogs
+                <Typography variant='h3' sx={{m: 2}}>
+                    Login to VG BackLogs
                 </Typography>
-
                 <FormControl>
                     <TextField
                         required
@@ -90,20 +97,26 @@ export class LogIn extends Component {
                         variant='outlined'
                         value={this.state.email}
                         onChange={(event) => this.setState({email: event.target.value})}
+                        error={this.state.loginError}
+                        sx={{m: 2}}
                     ></TextField>
+                    <br></br>
                     <TextField
                         required
                         label='Password'
                         variant='outlined'
                         value={this.state.password}
                         onChange={(event) => this.setState({password: event.target.value})}
+                        type='password'
+                        error={this.state.loginError}
+                        sx={{m: 2}}
                     ></TextField>
+
+                    <Button variant='contained' onClick={this.loginPressed} sx={{m: 2}}>Login</Button>
                 </FormControl>
 
-                <Button variant='contained' onClick={this.loginPressed}>Login</Button>
-
-                <Typography variant='h5'>Create an account</Typography>
-                <Button component={Link} to="/signup" variant='outlined'>Sign Up</Button>
+                <Typography variant='h6' sx={{m: 2}}>Don't have an account? Sign-up for VG BackLogs!</Typography>
+                <Button component={Link} to="/signup" variant='outlined' sx={{m: 2, width: 200}}>Sign Up</Button>
             </Box>
         )
     }

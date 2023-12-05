@@ -2,19 +2,8 @@ import React, { Component } from 'react';
 import { styled } from '@mui/material/styles';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button'
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import Grid from '@mui/material/Grid';
-import ImageList from '@mui/material/ImageList';
-import ImageListItem from '@mui/material/ImageListItem';
-import ImageListItemBar from '@mui/material/ImageListItemBar';
-import IconButton from '@mui/material/IconButton';
-import InfoIcon from '@mui/icons-material/Info';
-import ListSubheader from '@mui/material/ListSubheader';
 import Paper from '@mui/material/Paper';
-import Typography from '@mui/material/Typography';
+import GameDisplayLayout from '../windows/GameDisplayLayout';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -27,156 +16,155 @@ const Item = styled(Paper)(({ theme }) => ({
 export class Home extends Component {
   static displayName = Home.name;
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      trendingGames: null,
+      highestRatedGames: null
+    }
+
+    this.fetchTrendingGameData = this.fetchTrendingGameData.bind(this);
+    this.fetchHighestRatedGameData = this.fetchHighestRatedGameData.bind(this);
+    this.attachTrendingGameData = this.attachTrendingGameData.bind(this);
+    this.attachHighestRatedGameData = this.attachHighestRatedGameData.bind(this);
+  }
+
+  async componentDidMount() {
+    // 
+    // Backend mounted
+    // 
+
+    this.fetchTrendingGameData();
+    this.fetchHighestRatedGameData();
+
+  }
+
+  async componentDidUpdate() {
+    // 
+    // If backend updated
+    // 
+
+  }
+
+  async fetchTrendingGameData() {
+    // 
+    // Gets trending game data
+    // 
+    console.log("Component Mounted");
+    
+    const dbGamesAccess = 'https://api.rawg.io/api/games?key=98a8b7c3c0ff460bbe11e7b0ca7a2375&page_size=5&metacritic=80,100&dates=2023-01-01,2023-11-01'
+
+    try {
+      const response = await fetch (dbGamesAccess, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        this.setState({
+          trendingGames: data.results
+        });
+
+        console.log(data.results);
+      } else {
+        console.error("Response ok but error fetching recent game data: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching recent game data: ", error.message);
+    }
+
+    console.log("finished fetching");
+  }
+
+  attachTrendingGameData(trendGameData) {
+
+    if (trendGameData == null) {
+      return (
+        <Box>
+          Loading Data
+        </Box>
+      )
+    }
+
+    return(
+      <GameDisplayLayout gameList={trendGameData} rowHeight={400} column={5}/>
+    )
+  }
+
+  async fetchHighestRatedGameData() {
+    // 
+    // Gets highest rated game data
+    // 
+    console.log("Component Mounted");
+    
+    const dbGamesAccess = 'https://api.rawg.io/api/games?key=98a8b7c3c0ff460bbe11e7b0ca7a2375&page_size=5&metacritic=95,100'
+
+    try {
+      const response = await fetch (dbGamesAccess, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        this.setState({
+          highestRatedGames: data.results
+        });
+
+        console.log(data.results);
+      } else {
+        console.error("Response ok but error fetching recent game data: ", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error fetching recent game data: ", error.message);
+    }
+
+    console.log("finished fetching");
+  }
+
+  attachHighestRatedGameData(highestRatedGameData) {
+
+    if (highestRatedGameData == null) {
+      return (
+        <Box>
+          Loading Data
+        </Box>
+      )
+    }
+
+    return(
+      <GameDisplayLayout gameList={highestRatedGameData} rowHeight={400} column={5}/>
+    )
+  }
+
   render() {
     return (
       <Box>
-        <h1>Trending Games</h1>
-        <ImageList cols={5} rowHeight={400}>
-          {itemData.map((item) => (
-            <ImageListItem key={item.img}>
-              <img
-                srcSet={`${item.img}?w=248&fit=crop&auto=format&dpr=2 2x`}
-                src={`${item.img}?w=248&fit=crop&auto=format`}
-                alt={item.title}
-                loading="lazy"
-              />
-              <ImageListItemBar
-                title={item.title}
-                subtitle={item.author}
-                actionIcon={
-                  <IconButton
-                    sx={{ color: 'rgba(255, 255, 255, 0.54)' }}
-                    aria-label={`info about ${item.title}`}
-                  >
-                    {/* <InfoIcon /> */}
-                  </IconButton>
-                }
-              />
-            </ImageListItem>
-          ))}
-        </ImageList>
+        <Box sx={{m: 3, p: 3, border: 5, borderColor: 'grey.500', borderRadius: '16px'}}>
 
-        <Box sx={{ flexGrow: 1 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Item>
-                <h1>Friend's Reviews</h1>
-                <Card>
-                  <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                      This friend recommends this game
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      Baldur's Gate 3
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                      @sammiemac
-                    </Typography>
-                    <Typography variant="body2">
-                      "One of THE games of all time!!!"
-                    </Typography>
-                  </CardContent>
-                </Card>
-                <br/>
-                <Card>
-                  <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                      This friend does not recommend this game
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      League of Legends
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                      @emergencyplayer
-                    </Typography>
-                    <Typography variant="body2">
-                      "i have this idea for a start up that focuses on cloud computing AI generative GPT model that will allow us to create an external client side tool in order to grant 5G blockchain in the cyber security sector of natural language processing models in order to generate biometrics on how quantum computing can provide big data in an agumented and virtual reality space in the metaverse"
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Item>
-            </Grid>
-
-            <Grid item xs={6}>
-            <Item>
-                <h1>Your Games</h1>
-                <Card>
-                  <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                      Steam
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      Baldur's Gate 3
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                      232 Hours Played
-                    </Typography>
-                    <Typography variant="body2">
-                      Baldur’s Gate 3 is a story-rich, party-based RPG set in the universe of Dungeons & Dragons, where your choices shape a tale of fellowship and betrayal, survival and sacrifice, and the lure of absolute power. 
-                    </Typography>
-                  </CardContent>
-                </Card>
-                <br/>
-                <Card>
-                  <CardContent>
-                    <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-                      Riot Games
-                    </Typography>
-                    <Typography variant="h5" component="div">
-                      VALORANT
-                    </Typography>
-                    <Typography sx={{ mb: 1.5 }} color="text.secondary">
-                      420 Hours Played
-                    </Typography>
-                    <Typography variant="body2">
-                      VALORANT is a first-person shooter in which players compete in team-based multiplayer matches. Players use an assortment of firearms and special abilities to kill opponents to complete mission objectives.
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Item>
-            </Grid>
-          </Grid>
+          {/* Games released in 2023 that have a Metacritic rating between 80 - 100 */}
+          <h1>Trending Games</h1>
+          <p>Games released in 2023 with a Metacritic score over 80</p>
+          {this.attachTrendingGameData(this.state.trendingGames)}
 
         </Box>
 
+        <Box sx={{m: 3, p: 3, border: 5, borderColor: 'grey.500', borderRadius: '16px'}}>
+
+          {/* Games with a Metacritic rating between 90 - 100 */}
+          <h1>Highest Rated Games of All Time</h1>
+          <p>Games with a Metacritic score over 95</p>
+          {this.attachHighestRatedGameData(this.state.highestRatedGames)}
+
+        </Box>
       </Box>
       
-      
   );
-      // <Box>
-      //   <h1>The Appletuns!</h1>
-      //   <p>Welcome to backlogs</p>
-      //   <Button variant='contained'>LMAO OK</Button>
-      //   <h1>POOP</h1>
-      // </Box>
-    // );
   }
 }
-
-const itemData = [
-  {
-    img: 'https://cdn.discordapp.com/attachments/902056237011709973/1161039938905722910/MV5BMWVlMDdhNzYtNDY5ZS00YzdiLWI3NWEtMDUzMGQyMWQ2NDY3XkEyXkFqcGdeQXVyNDg4NjY5OTQ._V1_FMjpg_UX1000_.jpg?ex=6536d9b4&is=652464b4&hm=c945efafe56a06539cdc8360a8772eb8b3c286aeffdcc2c38c58452120b670db&',
-    title: 'Baldur\'s Gate 3',
-    author: 'Larian Studios',
-  },
-  {
-    img: 'https://cdn.discordapp.com/attachments/902056237011709973/1161040022095536218/MV5BMDNkZDVkODEtNjQyYy00NGYwLTljMGQtOTI2MDAwY2ZlOWFmXkEyXkFqcGdeQXVyNjM2MTY3MTY._V1_.jpg?ex=6536d9c8&is=652464c8&hm=137179eef0d0184d602a7ae0623372e689503a95d7a2adb87715aa8a846bb546&',
-    title: 'Overwatch 2',
-    author: 'Actvision-Blizzard',
-  },
-  {
-    img: 'https://cdn.discordapp.com/attachments/902056237011709973/1161040171567943860/71LTpSLz57L.jpg?ex=6536d9eb&is=652464eb&hm=4a10fd10a7c1a5a4e13e61f8677a097959936008d278471f324536b781d10043&',
-    title: 'VALORANT',
-    author: 'Riot Games',
-  },
-  {
-    img: 'https://cdn.discordapp.com/attachments/902056237011709973/1161040973078470766/816OHFGLA1L.jpg?ex=6536daab&is=652465ab&hm=6d90f321f9d6923d85803c104029a86df14729148acd9a9dd067d38739935a08&',
-    title: 'Destiny 2',
-    author: 'Bungie',
-  },
-  {
-    img: 'https://cdn.discordapp.com/attachments/902056237011709973/1161041078397456524/MV5BOTlhMTdiY2YtOTI3My00Y2M5LWI5YWQtYzgyYzgzMzhlMzExXkEyXkFqcGdeQXVyMzM2MzI5MzU._V1_.jpg?ex=6536dac4&is=652465c4&hm=5d6d8eaf432cb737e07bc8921779f54a862f1510d19bbd5c2448d0c389760d85&',
-    title: 'Apex Legends',
-    author: 'Respawn Entertainment'
-  }
-];
