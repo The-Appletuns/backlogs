@@ -49,6 +49,7 @@ public class Startup
         services.AddSingleton<UsersService>();
 
         services.AddSingleton<IDatabaseSettings>(db => (IDatabaseSettings)db.GetRequiredService<IOptions<BackLogsDatabaseSettings>>().Value);
+        
         // Add more services here as needed
     }
 
