@@ -5,9 +5,9 @@ Using a React.js front-end with a C# DotNET back-end connected to MongoDB, the p
 ## Check out the platform
 You can check out the web platform here!
 
-[VGBackLogs](http://vgbacklogs.com/)
+### [VGBackLogs.com](http://vgbacklogs.com/)
 
 ## Demo
-Linked below is a demo of how the social platform works.
+Linked below is a video demo of how the social platform works.
 
-[YouTube](https://www.youtube.com/watch?v=6brrXXJ1s3g)
+### [YouTube](https://www.youtube.com/watch?v=6brrXXJ1s3g)
